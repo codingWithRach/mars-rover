@@ -26,7 +26,11 @@ function isValidPlateauArray(plateauArray: Array<number>): boolean {
 export function createPlateau(plateauString: string): Plateau {
   const plateauArray: Array<number> = plateauString
     .split(" ")
-    .map((val) => parseInt(val));
-  if (!isValidPlateauArray(plateauArray)) throw new Error("invalid plateau");
+    .map((val) => parseFloat(val));
+  if (
+    !isValidPlateauArray(plateauArray) ||
+    !isValidPlateau({ x: plateauArray[0], y: plateauArray[1] })
+  )
+    throw new Error("invalid plateau");
   return { x: plateauArray[0], y: plateauArray[1] };
 }

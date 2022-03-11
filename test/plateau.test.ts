@@ -32,7 +32,7 @@ describe("createPlateau", () => {
 });
 
 describe("createPlateau", () => {
-  test.each([["a b"], ["12"], ["1 2 3"], ["hello"]])(
+  test.each([["a b"], ["12"], ["1 2 3"], ["hello"], ["4 -3"], ["0 0.1"]])(
     "throws error given a string %p in an invalid format",
     (plateauString: string) => {
       expect(() => {
