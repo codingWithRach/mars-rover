@@ -11,3 +11,9 @@ export function isValidPlateau(plateau: Plateau): boolean {
   }
   return true;
 }
+
+// creates a plateau from a string in the form '5 5'
+export function createPlateau(plateauString: string): Plateau {
+  const plateauArray = plateauString.split(" ").map((val) => parseInt(val));
+  return { x: plateauArray[0], y: plateauArray[1] };
+}
