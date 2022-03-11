@@ -28,15 +28,34 @@ describe("spin method", () => {
 
 describe("move method", () => {
   test.each([
-    [["1 2 N"], "1 3 N"],
-    [["1 2 S"], "1 1 S"],
-    [["1 2 W"], "0 2 W"],
-    [["1 2 E"], "2 2 E"],
+    [["1 2 N", "M"], "1 3 N"],
+    [["1 2 S", "M"], "1 1 S"],
+    [["1 2 W", "M"], "0 2 W"],
+    [["1 2 E", "M"], "2 2 E"],
   ])(
     "given instructions %p changes the position to %p",
     (roverDefinition: Array<string>, endPos: string) => {
       const rover = new Rover(roverDefinition);
       rover.move();
+      expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([
+    [["1 2 N", "L"], "1 2 W"],
+    [["1 2 N", "R"], "1 2 E"],
+    [["1 2 N", "M"], "1 3 N"],
+    [["1 2 S", "M"], "1 1 S"],
+    [["1 2 W", "M"], "0 2 W"],
+    [["1 2 E", "M"], "2 2 E"],
+    [["1 2 E", " "], "1 2 E"],
+  ])(
+    "given instructions %p changes the position to %p",
+    (roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(roverDefinition);
+      rover.processInstructions();
       expect(rover.getPos()).toEqual(endPos);
     }
   );

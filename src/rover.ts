@@ -9,7 +9,7 @@ export class Rover {
     this.#x = parseInt(startPos[0]);
     this.#y = parseInt(startPos[1]);
     this.#direction = startPos[2];
-    this.#instructions = instructions[1];
+    this.#instructions = instructions[1].toUpperCase();
   }
 
   getPos(): string {
@@ -45,6 +45,15 @@ export class Rover {
       case "E":
         this.#x += 1;
         break;
+    }
+  }
+
+  processInstructions() {
+    for (const action of this.#instructions) {
+      if (["L", "R"].includes(action)) this.spin(action);
+      else if (action === "M") this.move();
+      // if the instructions contain an unexpected character, stop processing
+      else return;
     }
   }
 }
