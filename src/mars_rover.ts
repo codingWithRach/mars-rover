@@ -12,9 +12,17 @@ export function marsRover(
   }
 
   // process remaining arguments
-  let endPos: string = "";
-  if (roverInstructions.length === 1) {
-    endPos = roverInstructions[0];
+  if (roverInstructions.length === 0) return "";
+  let endPos: Array<string> = [];
+  let rovers: Array<Array<string>> = [];
+  for (let i = 1; i < roverInstructions.length; i += 2) {
+    rovers.push([roverInstructions[i - 1], roverInstructions[i]]);
   }
-  return endPos;
+  if (roverInstructions.length % 2 === 1) {
+    rovers.push([roverInstructions.pop(), ""]);
+  }
+  rovers.forEach((rover) => {
+    endPos.push(rover[0]);
+  });
+  return endPos.join(", ");
 }

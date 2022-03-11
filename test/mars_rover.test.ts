@@ -28,3 +28,49 @@ describe("marsRover", () => {
     }
   );
 });
+
+describe("marsRover", () => {
+  test.each([["5 5", "1 2 N", "", "3 3 E", "1 2 N, 3 3 E"]])(
+    "returns start positions if passed start positions for two rovers with no movement instructions",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverEnd: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart
+        )
+      ).toEqual(roverEnd);
+    }
+  );
+});
+
+describe("marsRover", () => {
+  test.each([["5 5", "1 2 N", "", "3 3 E", "", "1 2 N, 3 3 E"]])(
+    "returns start positions if passed start positions for two rovers with no movement instructions",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      roverEnd: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(roverEnd);
+    }
+  );
+});
