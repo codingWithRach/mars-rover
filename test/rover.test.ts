@@ -51,6 +51,8 @@ describe("processInstructions", () => {
     [["1 2 W", "M"], "0 2 W"],
     [["1 2 E", "M"], "2 2 E"],
     [["1 2 E", " "], "1 2 E"],
+    [["1 2 N", "LMLMLMLMM"], "1 3 N"],
+    [["3 3 E", "MMRMMRMRRM"], "5 1 E"],
   ])(
     "given instructions %p changes the position to %p",
     (roverDefinition: Array<string>, endPos: string) => {
