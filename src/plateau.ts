@@ -12,15 +12,21 @@ export function isValidPlateau(plateau: Plateau): boolean {
   return true;
 }
 
+function isValidPlateauArray(plateauArray: Array<number>): boolean {
+  if (plateauArray.length !== 2) return false;
+  for (const dimension of plateauArray) {
+    if (Number.isNaN(dimension)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // creates a plateau from a string in the form '5 5'
 export function createPlateau(plateauString: string): Plateau {
   const plateauArray: Array<number> = plateauString
     .split(" ")
     .map((val) => parseInt(val));
-  plateauArray.forEach((dimension) => {
-    if (Number.isNaN(plateauArray[0])) {
-      throw new Error("invalid plateau");
-    }
-  });
+  if (!isValidPlateauArray(plateauArray)) throw new Error("invalid plateau");
   return { x: plateauArray[0], y: plateauArray[1] };
 }
