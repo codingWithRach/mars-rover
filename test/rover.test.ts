@@ -11,7 +11,7 @@ describe("Rover class constructor", () => {
   ])(
     "on plateau %p sets private class variables for starting position and instructions given by %p",
     (plateau: Plateau, roverDefinition: Array<string>) => {
-      const rover = new Rover(plateau, roverDefinition);
+      const rover = new Rover(plateau, true, roverDefinition);
       expect(rover.getPos()).toEqual(roverDefinition[0]);
       expect(rover.getInstructions()).toEqual(roverDefinition[1]);
       expect(rover.getPlateau()).toEqual(plateau);
@@ -27,7 +27,7 @@ describe("spin method", () => {
   ])(
     "on plateau %p, given instructions %p, changes the position to %p",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
-      const rover = new Rover(plateau, roverDefinition);
+      const rover = new Rover(plateau, true, roverDefinition);
       rover.spin(roverDefinition[1]);
       expect(rover.getPos()).toEqual(endPos);
     }
@@ -43,7 +43,7 @@ describe("move method", () => {
   ])(
     "on plateau %p, given instructions %p, changes the position to %p",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
-      const rover = new Rover(plateau, roverDefinition);
+      const rover = new Rover(plateau, true, roverDefinition);
       rover.move();
       expect(rover.getPos()).toEqual(endPos);
     }
@@ -64,7 +64,7 @@ describe("processInstructions", () => {
   ])(
     "on plateau %p, given instructions %p, changes the position to %p",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
-      const rover = new Rover(plateau, roverDefinition);
+      const rover = new Rover(plateau, true, roverDefinition);
       rover.processInstructions();
       expect(rover.getPos()).toEqual(endPos);
     }
@@ -75,7 +75,7 @@ describe("processInstructions", () => {
   test.each([[plateau, ["1 2 E", "MMMMRMLMMMM"], "5 2 E"]])(
     "throws error when rover moves beyond maximum x dimension of plateau",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
-      const rover = new Rover(plateau, roverDefinition);
+      const rover = new Rover(plateau, true, roverDefinition);
       expect(() => {
         rover.processInstructions();
       }).toThrow("rover has fallen off plateau");

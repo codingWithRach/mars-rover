@@ -1,13 +1,15 @@
 import { Plateau } from "../src/plateau";
 export class Rover {
   #plateau: Plateau;
+  #isDumb: boolean;
   #x: number;
   #y: number;
   #direction: string;
   #instructions: string;
 
-  constructor(plateau: Plateau, instructions: Array<string>) {
+  constructor(plateau: Plateau, isDumb: boolean, instructions: Array<string>) {
     this.#plateau = plateau;
+    this.#isDumb = isDumb;
     let startPos: Array<string> = instructions[0].split(" ");
     this.#x = parseInt(startPos[0]);
     this.#y = parseInt(startPos[1]);
