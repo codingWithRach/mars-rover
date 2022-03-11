@@ -58,7 +58,11 @@ export class Rover {
   processInstructions() {
     for (const action of this.#instructions) {
       if (["L", "R"].includes(action)) this.spin(action);
-      else if (action === "M") this.move();
+      else if (action === "M") {
+        this.move();
+        if (this.#x > this.#plateau["x"])
+          throw Error("rover has fallen off plateau");
+      }
       // if the instructions contain an unexpected character, stop processing
       else return;
     }

@@ -9,7 +9,7 @@ describe("Rover class constructor", () => {
     [plateau, ["1 2 N", "LMLMLMLMM"]],
     [plateau, ["3 3 E", "MMRMMRMRRM"]],
   ])(
-    "sets private class variables for starting position and instructions given by %p",
+    "on plateau %p sets private class variables for starting position and instructions given by %p",
     (plateau: Plateau, roverDefinition: Array<string>) => {
       const rover = new Rover(plateau, roverDefinition);
       expect(rover.getPos()).toEqual(roverDefinition[0]);
@@ -25,7 +25,7 @@ describe("spin method", () => {
     [plateau, [startPos, "L"], "1 2 W"],
     [plateau, [startPos, "R"], "1 2 E"],
   ])(
-    "given instructions %p changes the position to %p",
+    "on plateau %p, given instructions %p, changes the position to %p",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
       const rover = new Rover(plateau, roverDefinition);
       rover.spin(roverDefinition[1]);
@@ -41,7 +41,7 @@ describe("move method", () => {
     [plateau, ["1 2 W", "M"], "0 2 W"],
     [plateau, ["1 2 E", "M"], "2 2 E"],
   ])(
-    "given instructions %p changes the position to %p",
+    "on plateau %p, given instructions %p, changes the position to %p",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
       const rover = new Rover(plateau, roverDefinition);
       rover.move();
@@ -62,11 +62,23 @@ describe("processInstructions", () => {
     [plateau, ["1 2 N", "LMLMLMLMM"], "1 3 N"],
     [plateau, ["3 3 E", "MMRMMRMRRM"], "5 1 E"],
   ])(
-    "given instructions %p changes the position to %p",
+    "on plateau %p, given instructions %p, changes the position to %p",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
       const rover = new Rover(plateau, roverDefinition);
       rover.processInstructions();
       expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([[plateau, ["1 2 E", "MMMMRMLMMMM"], "5 2 E"]])(
+    "throws error when rover moves beyond maximum x dimension of plateau",
+    (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, roverDefinition);
+      expect(() => {
+        rover.processInstructions();
+      }).toThrow("rover has fallen off plateau");
     }
   );
 });
