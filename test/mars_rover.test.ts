@@ -19,3 +19,12 @@ describe("marsRover", () => {
     }
   );
 });
+
+describe("marsRover", () => {
+  test.each([["5 5", "1 2 N"]])(
+    "returns start position %p if passed start position for one rover but no movement instructions",
+    (plateauString: string, roverStart: string) => {
+      expect(marsRover(plateauString, roverStart)).toEqual(roverStart);
+    }
+  );
+});
