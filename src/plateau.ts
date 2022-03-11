@@ -3,6 +3,11 @@ export interface Plateau {
   y: number;
 }
 
-export function isValidPlateau( plateau: Plateau ): boolean {
+export function isValidPlateau(plateau: Plateau): boolean {
+  for (const key of Object.keys(plateau)) {
+    if (plateau[key] < 0) {
+      return false;
+    }
+  }
   return true;
 }
