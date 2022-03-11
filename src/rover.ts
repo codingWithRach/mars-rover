@@ -30,4 +30,21 @@ export class Rover {
           directions.length
       ];
   }
+
+  move() {
+    switch (this.#direction) {
+      case "N":
+        this.#y += 1;
+        break;
+      case "S":
+        this.#y -= 1;
+        break;
+      case "W":
+        this.#x -= 1;
+        break;
+      case "E":
+        this.#x += 1;
+        break;
+    }
+  }
 }
