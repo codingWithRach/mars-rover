@@ -19,4 +19,14 @@ export class Rover {
   getInstructions(): string {
     return this.#instructions;
   }
+
+  spin(spinDirection: string) {
+    const increment = spinDirection === "L" ? 1 : -1;
+    const directions: Array<string> = ["N", "W", "S", "E"];
+    const curIndex = directions.findIndex((dirn) => dirn === this.#direction);
+    let newIndex = curIndex + increment;
+    if (newIndex >= directions.length) newIndex = 0;
+    if (newIndex < 0) newIndex = directions.length - 1;
+    this.#direction = directions[newIndex];
+  }
 }

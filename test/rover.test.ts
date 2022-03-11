@@ -10,3 +10,18 @@ describe("Rover class constructor", () => {
     }
   );
 });
+
+const startPos: string = "1 2 N";
+describe("spin function", () => {
+  test.each([
+    [[startPos, "L"], "1 2 W"],
+    [[startPos, "R"], "1 2 E"],
+  ])(
+    "given instructions %p changes the position to %p",
+    (roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(roverDefinition);
+      rover.spin(roverDefinition[1]);
+      expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
