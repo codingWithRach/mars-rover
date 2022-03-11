@@ -5,7 +5,7 @@ export interface Plateau {
 
 export function isValidPlateau(plateau: Plateau): boolean {
   for (const key of Object.keys(plateau)) {
-    if (plateau[key] < 0) {
+    if (!Number.isInteger(plateau[key]) || plateau[key] < 0) {
       return false;
     }
   }
