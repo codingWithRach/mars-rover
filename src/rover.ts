@@ -45,18 +45,19 @@ export class Rover {
   }
 
   move() {
+    const doMove = (x: number, y: number) => this.setPos(x, y);
     switch (this.#direction) {
       case "N":
-        this.#y += 1;
+        doMove(this.#x, this.#y + 1);
         break;
       case "S":
-        this.#y -= 1;
+        doMove(this.#x, this.#y - 1);
         break;
       case "W":
-        this.#x -= 1;
+        doMove(this.#x - 1, this.#y);
         break;
       case "E":
-        this.#x += 1;
+        doMove(this.#x + 1, this.#y);
         break;
     }
   }
