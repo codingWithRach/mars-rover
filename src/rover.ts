@@ -1,10 +1,13 @@
+import { Plateau } from "../src/plateau";
 export class Rover {
+  #plateau: Plateau;
   #x: number;
   #y: number;
   #direction: string;
   #instructions: string;
 
-  constructor(instructions: Array<string>) {
+  constructor(plateau: Plateau, instructions: Array<string>) {
+    this.#plateau = plateau;
     let startPos: Array<string> = instructions[0].split(" ");
     this.#x = parseInt(startPos[0]);
     this.#y = parseInt(startPos[1]);
@@ -18,6 +21,10 @@ export class Rover {
 
   getInstructions(): string {
     return this.#instructions;
+  }
+
+  getPlateau(): Plateau {
+    return this.#plateau;
   }
 
   spin(spinDirection: string) {
