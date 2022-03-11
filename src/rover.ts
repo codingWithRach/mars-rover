@@ -11,10 +11,14 @@ export class Rover {
     this.#plateau = plateau;
     this.#isDumb = isDumb;
     let startPos: Array<string> = instructions[0].split(" ");
-    this.#x = parseInt(startPos[0]);
-    this.#y = parseInt(startPos[1]);
+    this.setPos(parseInt(startPos[0]), parseInt(startPos[1]));
     this.#direction = startPos[2];
     this.#instructions = instructions[1].toUpperCase();
+  }
+
+  setPos(x: number, y: number) {
+    this.#x = x;
+    this.#y = y;
   }
 
   getPos(): string {
