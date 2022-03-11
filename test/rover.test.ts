@@ -1,11 +1,12 @@
 import { Rover } from "../src/rover";
 
 describe("Rover class constructor", () => {
-  test.each([["1 2 N"], ["3 3 E"]])(
-    "sets private class variables for starting position %p",
-    (startPos) => {
-      const rover = new Rover(startPos);
-      expect(rover.getPos()).toEqual(startPos);
+  test.each([[["1 2 N", "LMLMLMLMM"]], [["3 3 E", "MMRMMRMRRM"]]])(
+    "sets private class variables for starting position and instructions given by %p",
+    (roverDefinition: Array<string>) => {
+      const rover = new Rover(roverDefinition);
+      expect(rover.getPos()).toEqual(roverDefinition[0]);
+      expect(rover.getInstructions()).toEqual(roverDefinition[1]);
     }
   );
 });

@@ -2,15 +2,21 @@ export class Rover {
   #x: number;
   #y: number;
   #direction: string;
+  #instructions: string;
 
-  constructor(startPos: string) {
-    let startPosArray: Array<string> = startPos.split(" ");
-    this.#x = parseInt(startPosArray[0]);
-    this.#y = parseInt(startPosArray[1]);
-    this.#direction = startPosArray[2];
+  constructor(instructions: Array<string>) {
+    let startPos: Array<string> = instructions[0].split(" ");
+    this.#x = parseInt(startPos[0]);
+    this.#y = parseInt(startPos[1]);
+    this.#direction = startPos[2];
+    this.#instructions = instructions[1];
   }
 
   getPos(): string {
     return `${this.#x} ${this.#y} ${this.#direction}`;
+  }
+
+  getInstructions(): string {
+    return this.#instructions;
   }
 }
