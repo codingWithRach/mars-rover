@@ -1,4 +1,4 @@
-import { Coordinate } from "../src/coordinate";
+import { Coordinate, createCoordinate } from "../src/coordinate";
 import { createPlateau } from "../src/plateau";
 import { Rover } from "../src/rover";
 
@@ -22,20 +22,50 @@ export function marsRover(
     throw new Error("invalid plateau");
   }
 
-  // process remaining arguments
+  // if no rovers have been received, no action is required
   if (roverInstructions.length === 0) return "";
+
+  // process remaining arguments to create an array of rovers.  Each rover element is an array with:
+  // - the first element being the start position of the rover
+  // - the second element being the instructions
   let endPos: Array<string> = [];
   let rovers: Array<Array<string>> = [];
   for (let i = 1; i < roverInstructions.length; i += 2) {
     rovers.push([roverInstructions[i - 1], roverInstructions[i]]);
   }
+
+  // if the number of instructions is odd, there's a rover left over with no instructions so add this to the array
   if (roverInstructions.length % 2 === 1) {
     rovers.push([roverInstructions.pop(), ""]);
   }
+
+  // for each of the rovers, follow the instructions and add the end position to the array
+  const roversToProcess = rovers.slice();
   for (const rover of rovers) {
-    const thisRover = new Rover(plateau, isDumb, rover);
+    // remove this rover from the array of rovers still to be processed
+    roversToProcess.shift();
+
+    // before processing this rover, need to construct an array of positions for all the other rovers, to ensure they don't collide
+    // first look at the end positions of the rovers that have already been processed
+    const otherProcessedRovers: Array<Coordinate> = endPos.map((pos) => {
+      return createCoordinate(pos);
+    });
+    // now look at the start positions of the rovers that haven't yet been processed
+    const otherUnprocessedRovers: Array<Coordinate> = roversToProcess.map(
+      (pos) => {
+        return createCoordinate(pos[0]);
+      }
+    );
+
+    // now proccess this rover and update the array of end positions
+    const thisRover = new Rover(plateau, isDumb, rover, [
+      ...otherProcessedRovers,
+      ...otherUnprocessedRovers,
+    ]);
     thisRover.processInstructions();
     endPos.push(thisRover.getPos());
   }
+
+  // return a comma separated list of end positions
   return endPos.join(", ");
 }

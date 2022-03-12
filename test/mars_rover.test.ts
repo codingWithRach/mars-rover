@@ -4,7 +4,8 @@ import { ErrorType } from "../src/error_type";
 // configure whether or not the rovers being tested are dumb (a single flag applies to all rovers)
 // - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
 // - if false, the rovers are intelligent i.e. will stop processing when they encounter the edge of a plateau or another rover
-beforeAll(() => configDumb(true));
+const isDumb = true;
+beforeAll(() => configDumb(isDumb));
 
 describe("marsRover", () => {
   test.each([["5 5"]])(
@@ -126,9 +127,47 @@ describe("marsRover", () => {
   );
 });
 
+describe("marsRover", () => {
+  test.each([
+    ["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM", "1 2 N, 3 1 E"],
+  ])(
+    "if first rover coincides with start position of second rover, first rover crashes (if dumb) or stops processing (if not dumb)",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      if (isDumb) {
+        expect(() => {
+          marsRover(
+            plateauString,
+            roverOneStart,
+            roverOneInstruction,
+            roverTwoStart,
+            roverTwoInstruction
+          );
+        }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      } else {
+        expect(
+          marsRover(
+            plateauString,
+            roverOneStart,
+            roverOneInstruction,
+            roverTwoStart,
+            roverTwoInstruction
+          )
+        ).toEqual(endPos);
+      }
+    }
+  );
+});
+
 // 2 rovers that coincide
-// first coincides with position of second - first crashes/stops and second still processes
-// first completes and second coincides with end pos of first - second crashes/stops but still return end pos of first
+// first coincides with position of second - first crashes/stops
+// first completes and second coincides with end pos of first - second crashes/stops
 
 // first rover falls off edge - check second still processes
 
