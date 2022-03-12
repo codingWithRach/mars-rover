@@ -1,5 +1,5 @@
 import { marsRover } from "../src/mars_rover";
-import {ErrorType} from "../src/error_type"}
+import { ErrorType } from "../src/error_type";
 
 describe("marsRover", () => {
   test.each([["5 5"]])(
@@ -72,6 +72,23 @@ describe("marsRover", () => {
           roverTwoInstruction
         )
       ).toEqual(roverEnd);
+    }
+  );
+});
+
+describe("marsRover", () => {
+  test.each([
+    ["5 5", "1 2 N", "LMLMLMLMM", "1 3 N"],
+    ["5 5", "3 3 E", "MMRMMRMRRM", "5 1 E"],
+  ])(
+    "given valid start position and instructions for a single rover, returns expected end position",
+    (
+      plateauString: string,
+      roverStart: string,
+      instruction: string,
+      endPos: string
+    ) => {
+      expect(marsRover(plateauString, roverStart, instruction)).toEqual(endPos);
     }
   );
 });
