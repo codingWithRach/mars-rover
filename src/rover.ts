@@ -12,7 +12,7 @@ export class Rover {
     this.#isDumb = isDumb;
     let startPos: Array<string> = instructions[0].split(" ");
     this.setPos(parseInt(startPos[0]), parseInt(startPos[1]));
-    this.#direction = startPos[2];
+    this.#direction = startPos[2].toUpperCase();
     this.#instructions = instructions[1].toUpperCase();
   }
 

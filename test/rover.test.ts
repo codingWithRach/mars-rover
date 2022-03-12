@@ -103,3 +103,17 @@ describe("processInstructions", () => {
     }
   );
 });
+
+describe("processInstructions", () => {
+  test.each([
+    [plateau, ["1 2 n", "lmlmlmlmm"], "1 3 N"],
+    [plateau, ["3 3 e", "mmrmmrmrrm"], "5 1 E"],
+  ])(
+    "processes lowercase instructions",
+    (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, true, roverDefinition);
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
