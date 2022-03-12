@@ -18,7 +18,7 @@ export class Rover {
     this.#isDumb = isDumb;
     this.#otherRovers = otherRovers.slice();
     let startPos: Array<string> = instructions[0].split(" ");
-    this.setPos(parseFloat(startPos[0]), parseFloat(startPos[1]));
+    this.setPos(Number(startPos[0]), Number(startPos[1]));
     this.setDirection(startPos[2]);
     this.setInstructions(instructions[1]);
   }

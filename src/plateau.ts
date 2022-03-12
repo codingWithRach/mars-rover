@@ -9,7 +9,7 @@ import { ErrorType } from "../src/error_type";
 export function createPlateau(plateauString: string): Coordinate {
   const plateauArray: Array<number> = plateauString
     .split(" ")
-    .map((val) => parseFloat(val));
+    .map((val) => Number(val));
   if (
     !isValidCoordinateArray(plateauArray) ||
     !isValidCoordinate({ x: plateauArray[0], y: plateauArray[1] })
