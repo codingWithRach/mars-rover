@@ -31,14 +31,17 @@ export class Rover {
     ) {
       throw Error(ErrorType.ERR_INVALID_POS);
     }
+    if (!this.isOccupied(x, y)) this.#position = { x, y };
+  }
 
-    this.#otherRovers.forEach((roverPos) => {
+  isOccupied(x: number, y: number): boolean {
+    for (const roverPos of this.#otherRovers) {
       if (roverPos.x === x && roverPos.y === y) {
-        throw Error(ErrorType.ERR_OCCUPIED_POS);
+        if (this.#isDumb) throw Error(ErrorType.ERR_OCCUPIED_POS);
+        else return true;
       }
-    });
-
-    this.#position = { x, y };
+    }
+    return false;
   }
 
   setDirection(direction: string = "") {
@@ -82,7 +85,11 @@ export class Rover {
     const doMove = (x: number, y: number): boolean => {
       if (
         this.#isDumb ||
-        (x >= 0 && x <= this.#plateau.x && y >= 0 && y <= this.#plateau.y)
+        (x >= 0 &&
+          x <= this.#plateau.x &&
+          y >= 0 &&
+          y <= this.#plateau.y &&
+          !this.isOccupied(x, y))
       ) {
         this.setPos(x, y);
         return true;
@@ -107,7 +114,9 @@ export class Rover {
       if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
         // if unable to perform the move, stop processing
-        if (!this.move()) return false;
+        if (!this.move()) {
+          return false;
+        }
       }
       // if the instructions contain an unexpected character, stop processing
       else return;

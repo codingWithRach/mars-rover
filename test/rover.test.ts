@@ -292,3 +292,15 @@ describe("processInstructions", () => {
     }
   );
 });
+
+describe("processInstructions", () => {
+  const otherRovers: Array<Coordinate> = [{ x: 0, y: 2 }];
+  test.each([[["1 2 N", "LMLMLMLMM"], "1 2 W"]])(
+    "for a non-dumb rover, stops processing if attempt to move to a position already occupied by another rover",
+    (roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, false, roverDefinition, otherRovers);
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
