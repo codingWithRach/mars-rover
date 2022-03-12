@@ -1,13 +1,17 @@
-import { Plateau } from "../src/plateau";
+import { Coordinate } from "../src/coordinate";
 export class Rover {
-  #plateau: Plateau;
+  #plateau: Coordinate;
   #isDumb: boolean;
   #x: number;
   #y: number;
   #direction: string;
   #instructions: string;
 
-  constructor(plateau: Plateau, isDumb: boolean, instructions: Array<string>) {
+  constructor(
+    plateau: Coordinate,
+    isDumb: boolean,
+    instructions: Array<string>
+  ) {
     this.#plateau = plateau;
     this.#isDumb = isDumb;
     let startPos: Array<string> = instructions[0].split(" ");
@@ -29,7 +33,7 @@ export class Rover {
     return this.#instructions;
   }
 
-  getPlateau(): Plateau {
+  getPlateau(): Coordinate {
     return this.#plateau;
   }
 

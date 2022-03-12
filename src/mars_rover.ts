@@ -1,4 +1,5 @@
-import { Plateau, createPlateau } from "../src/plateau";
+import { Coordinate } from "../src/coordinate";
+import { createPlateau } from "../src/plateau";
 
 export function marsRover(
   plateauString: string,
@@ -6,7 +7,7 @@ export function marsRover(
 ): string {
   // create plateau from first argument
   try {
-    let plateau: Plateau = createPlateau(plateauString);
+    let plateau: Coordinate = createPlateau(plateauString);
   } catch (error) {
     throw new Error("invalid plateau");
   }
