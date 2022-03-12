@@ -6,14 +6,17 @@ export class Rover {
   #position: Coordinate;
   #direction: string;
   #instructions: string;
+  #otherRovers: Array<Coordinate>;
 
   constructor(
     plateau: Coordinate,
     isDumb: boolean,
-    instructions: Array<string>
+    instructions: Array<string>,
+    otherRovers: Array<Coordinate> = []
   ) {
     this.#plateau = plateau;
     this.#isDumb = isDumb;
+    this.#otherRovers = otherRovers.slice();
     let startPos: Array<string> = instructions[0].split(" ");
     this.setPos(parseFloat(startPos[0]), parseFloat(startPos[1]));
     this.setDirection(startPos[2]);
@@ -28,6 +31,13 @@ export class Rover {
     ) {
       throw Error(ErrorType.ERR_INVALID_POS);
     }
+
+    this.#otherRovers.forEach((roverPos) => {
+      if (roverPos.x === x && roverPos.y === y) {
+        throw Error(ErrorType.ERR_OCCUPIED_POS);
+      }
+    });
+
     this.#position = { x, y };
   }
 

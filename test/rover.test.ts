@@ -244,3 +244,14 @@ describe("processInstructions", () => {
     }
   );
 });
+
+describe("Rover class constructor", () => {
+  test.each([[["1 2 N", "LMLMLMLMM"], [{ x: 1, y: 2 }]]])(
+    "fails to set initial position if another rover is already there",
+    (roverDefinition: Array<string>, otherRovers: Array<Coordinate>) => {
+      expect(() => {
+        const rover = new Rover(plateau, true, roverDefinition, otherRovers);
+      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
+});
