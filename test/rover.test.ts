@@ -205,3 +205,21 @@ describe("processInstructions", () => {
     }
   );
 });
+
+describe("processInstructions", () => {
+  test.each([
+    [["1 2", ""]],
+    [["1 2 X", ""]],
+    [["1 2 L", ""]],
+    [["1 2 R", ""]],
+    [["1 2 M", ""]],
+    [["1 2 NS", ""]],
+  ])(
+    "throws an error for a rover with an invalid starting direction",
+    (roverDefinition: Array<string>) => {
+      expect(() => {
+        const rover = new Rover(plateau, true, roverDefinition);
+      }).toThrow("invalid starting direction");
+    }
+  );
+});
