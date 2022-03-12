@@ -1,6 +1,6 @@
 import { Coordinate, createCoordinate } from "../src/coordinate";
-import { createPlateau } from "../src/plateau";
 import { Rover } from "../src/rover";
+import { ErrorType } from "../src/error_type";
 
 // this flag determines whether or not the rovers being tested are dumb (a single flag applies to all rovers)
 // - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
@@ -17,9 +17,9 @@ export function marsRover(
   // create plateau from first argument
   let plateau: Coordinate;
   try {
-    plateau = createPlateau(plateauString);
+    plateau = createCoordinate(plateauString);
   } catch (error) {
-    throw new Error("invalid plateau");
+    throw new Error(ErrorType.ERR_INVALID_PLATEAU);
   }
 
   // if no rovers have been received, no action is required
