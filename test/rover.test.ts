@@ -72,13 +72,24 @@ describe("processInstructions", () => {
 });
 
 describe("processInstructions", () => {
-  test.each([[plateau, ["1 2 E", "MMMMRMLMMMM"], "5 2 E"]])(
-    "throws error when rover moves beyond maximum x dimension of plateau",
-    (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
+  test.each([[plateau, ["1 2 E", "MMMMMRMLMMMM"]]])(
+    "throws error when a dumb rover moves beyond maximum x dimension of plateau",
+    (plateau: Plateau, roverDefinition: Array<string>) => {
       const rover = new Rover(plateau, true, roverDefinition);
       expect(() => {
         rover.processInstructions();
       }).toThrow("rover has fallen off plateau");
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([[plateau, ["1 2 E", "MMMMMRMLMMMM"], "5 2 E"]])(
+    "stops processing when a non-dumb rover attempts to move beyond maximum x dimension of plateau",
+    (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, false, roverDefinition);
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
     }
   );
 });

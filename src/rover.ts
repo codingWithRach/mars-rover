@@ -44,21 +44,30 @@ export class Rover {
       ];
   }
 
+  // move the rover only if one of the following applies:
+  // - it's dumb i.e. it can call off the edge of the plateau
+  // - it's not dumb, but the move would not result in it falling off the edge of the plateau
   move() {
-    const doMove = (x: number, y: number) => this.setPos(x, y);
+    const doMove = (x: number, y: number): boolean => {
+      if (
+        this.#isDumb ||
+        (x >= 0 && x <= this.#plateau.x && y >= 0 && y <= this.#plateau.y)
+      ) {
+        this.setPos(x, y);
+        return true;
+      } else {
+        return false;
+      }
+    };
     switch (this.#direction) {
       case "N":
-        doMove(this.#x, this.#y + 1);
-        break;
+        return doMove(this.#x, this.#y + 1);
       case "S":
-        doMove(this.#x, this.#y - 1);
-        break;
+        return doMove(this.#x, this.#y - 1);
       case "W":
-        doMove(this.#x - 1, this.#y);
-        break;
+        return doMove(this.#x - 1, this.#y);
       case "E":
-        doMove(this.#x + 1, this.#y);
-        break;
+        return doMove(this.#x + 1, this.#y);
     }
   }
 
@@ -66,9 +75,13 @@ export class Rover {
     for (const action of this.#instructions) {
       if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
-        this.move();
-        if (this.#x > this.#plateau["x"])
-          throw Error("rover has fallen off plateau");
+        if (this.move()) {
+          if (this.#x > this.#plateau["x"])
+            throw Error("rover has fallen off plateau");
+        } else {
+          // if unable to perform the move, stop processing
+          return false;
+        }
       }
       // if the instructions contain an unexpected character, stop processing
       else return;
