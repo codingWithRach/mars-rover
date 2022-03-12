@@ -79,8 +79,8 @@ export class Rover {
   }
 
   // move the rover only if one of the following applies:
-  // - it's dumb i.e. it can call off the edge of the plateau
-  // - it's not dumb, but the move would not result in it falling off the edge of the plateau
+  // - it's dumb i.e. it can call off the edge of the plateau or collide with another rover
+  // - it's not dumb, but the move would not result in it falling off the edge of the plateau or colliding with another rover
   move() {
     const doMove = (x: number, y: number): boolean => {
       if (
