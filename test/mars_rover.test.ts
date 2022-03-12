@@ -1,5 +1,10 @@
-import { marsRover } from "../src/mars_rover";
+import { marsRover, configDumb } from "../src/mars_rover";
 import { ErrorType } from "../src/error_type";
+
+// configure whether or not the rovers being tested are dumb (a single flag applies to all rovers)
+// - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
+// - if false, the rovers are intelligent i.e. will stop processing when they encounter the edge of a plateau or another rover
+beforeAll(() => configDumb(true));
 
 describe("marsRover", () => {
   test.each([["5 5"]])(
@@ -92,3 +97,16 @@ describe("marsRover", () => {
     }
   );
 });
+
+// 2 rovers that don't coincide
+// both have instructions
+// first with and second without
+// first without and second with
+
+// 2 rovers that coincide
+// first coincides with position of second - first crashes/stops and second still processes
+// first completes and second coincides with end pos of first - second crashes/stops but still return end pos of first
+
+// first rover falls off edge - check second still processes
+
+// then add more complex tests and consider edge cases

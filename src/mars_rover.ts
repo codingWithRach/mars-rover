@@ -2,9 +2,13 @@ import { Coordinate } from "../src/coordinate";
 import { createPlateau } from "../src/plateau";
 import { Rover } from "../src/rover";
 
-// set this variable to true for a dumb rover i.e. one that will fall off the edge of a plateau or collide with another rover
-// set this variable to false for an intelligent rover i.e. one that will stop processing when it encounters the edge of a plateau or another rover
-const isDumb = true;
+// this flag determines whether or not the rovers being tested are dumb (a single flag applies to all rovers)
+// - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
+// - if false, the rovers are intelligent i.e. will stop processing when they encounter the edge of a plateau or another rover
+let isDumb: boolean;
+export function configDumb(dumbFlag: boolean) {
+  isDumb = dumbFlag;
+}
 
 export function marsRover(
   plateauString: string,
