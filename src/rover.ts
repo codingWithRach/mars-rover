@@ -1,4 +1,4 @@
-import { Coordinate } from "../src/coordinate";
+import { Coordinate, isValidCoordinate } from "../src/coordinate";
 export class Rover {
   #plateau: Coordinate;
   #isDumb: boolean;
@@ -14,14 +14,18 @@ export class Rover {
     this.#plateau = plateau;
     this.#isDumb = isDumb;
     let startPos: Array<string> = instructions[0].split(" ");
-    this.setPos(parseInt(startPos[0]), parseInt(startPos[1]));
+    this.setPos(parseFloat(startPos[0]), parseFloat(startPos[1]));
     this.#direction = startPos[2].toUpperCase();
     this.#instructions = instructions[1].toUpperCase();
   }
 
   setPos(x: number, y: number) {
-    if (x < 0 || x > this.#plateau.x || y < 0 || y > this.#plateau.y) {
-      throw Error("rover has fallen off plateau");
+    if (
+      !isValidCoordinate({ x, y }) ||
+      x > this.#plateau.x ||
+      y > this.#plateau.y
+    ) {
+      throw Error("invalid position or rover has fallen off plateau");
     }
     this.#position = { x, y };
   }
