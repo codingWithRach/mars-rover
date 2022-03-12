@@ -279,3 +279,16 @@ describe("processInstructions", () => {
     }
   );
 });
+
+describe("processInstructions", () => {
+  const otherRovers: Array<Coordinate> = [{ x: 1, y: 3 }];
+  test.each([[["1 2 N", "LMLMLMLMM"]]])(
+    "for a dumb rover, throws error if attempt to move to a position already occupied by another rover",
+    (roverDefinition: Array<string>) => {
+      const rover = new Rover(plateau, true, roverDefinition, otherRovers);
+      expect(() => {
+        rover.processInstructions();
+      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
+});
