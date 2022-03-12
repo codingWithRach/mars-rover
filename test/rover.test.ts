@@ -246,12 +246,36 @@ describe("processInstructions", () => {
 });
 
 describe("Rover class constructor", () => {
-  test.each([[["1 2 N", "LMLMLMLMM"], [{ x: 1, y: 2 }]]])(
+  test.each([
+    [["1 2 N", "LMLMLMLMM"], [{ x: 1, y: 2 }]],
+    [
+      ["1 2 N", "LMLMLMLMM"],
+      [
+        { x: 2, y: 4 },
+        { x: 1, y: 2 },
+      ],
+    ],
+  ])(
     "fails to set initial position if another rover is already there",
     (roverDefinition: Array<string>, otherRovers: Array<Coordinate>) => {
       expect(() => {
         const rover = new Rover(plateau, true, roverDefinition, otherRovers);
       }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  const otherRovers: Array<Coordinate> = [
+    { x: 4, y: 4 },
+    { x: 3, y: 2 },
+  ];
+  test.each([[["1 2 N", "LMLMLMLMM"], "1 3 N"]])(
+    "processes correctly if other rovers are on the plateau but don't interfere with this rover",
+    (roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, true, roverDefinition, otherRovers);
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
     }
   );
 });
