@@ -196,7 +196,13 @@ describe("processInstructions", () => {
 });
 
 describe("processInstructions", () => {
-  test.each([[["-1 2 N", ""]], [["0 2.4 N", ""]], [["A B N", ""]]])(
+  test.each([
+    [["-1 2 N", ""]],
+    [["0 2.4 N", ""]],
+    [["A B N", ""]],
+    [["1", ""]],
+    [["", ""]],
+  ])(
     "throws an error for a rover with an invalid starting position",
     (roverDefinition: Array<string>) => {
       expect(() => {
