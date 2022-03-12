@@ -98,10 +98,33 @@ describe("marsRover", () => {
   );
 });
 
-// 2 rovers that don't coincide
-// both have instructions
-// first with and second without
-// first without and second with
+describe("marsRover", () => {
+  test.each([
+    ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM", "1 3 N, 5 1 E"],
+    ["5 5", "1 2 N", "", "3 3 E", "MMRMMRMRRM", "1 2 N, 5 1 E"],
+    ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "", "1 3 N, 3 3 E"],
+  ])(
+    "given valid start position and instructions two rovers that don't coincide, returns expected end positions",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
+    }
+  );
+});
 
 // 2 rovers that coincide
 // first coincides with position of second - first crashes/stops and second still processes
@@ -110,3 +133,5 @@ describe("marsRover", () => {
 // first rover falls off edge - check second still processes
 
 // then add more complex tests and consider edge cases
+
+// before final check-in, ensure that all tests run with configDumb(true)  and with configDumb(false)
