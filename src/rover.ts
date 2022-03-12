@@ -2,8 +2,7 @@ import { Coordinate } from "../src/coordinate";
 export class Rover {
   #plateau: Coordinate;
   #isDumb: boolean;
-  #x: number;
-  #y: number;
+  #position: Coordinate;
   #direction: string;
   #instructions: string;
 
@@ -24,12 +23,11 @@ export class Rover {
     if (x < 0 || x > this.#plateau.x || y < 0 || y > this.#plateau.y) {
       throw Error("rover has fallen off plateau");
     }
-    this.#x = x;
-    this.#y = y;
+    this.#position = { x, y };
   }
 
   getPos(): string {
-    return `${this.#x} ${this.#y} ${this.#direction}`;
+    return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
   }
 
   getInstructions(): string {
@@ -68,13 +66,13 @@ export class Rover {
     };
     switch (this.#direction) {
       case "N":
-        return doMove(this.#x, this.#y + 1);
+        return doMove(this.#position.x, this.#position.y + 1);
       case "S":
-        return doMove(this.#x, this.#y - 1);
+        return doMove(this.#position.x, this.#position.y - 1);
       case "W":
-        return doMove(this.#x - 1, this.#y);
+        return doMove(this.#position.x - 1, this.#position.y);
       case "E":
-        return doMove(this.#x + 1, this.#y);
+        return doMove(this.#position.x + 1, this.#position.y);
     }
   }
 
