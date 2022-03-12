@@ -16,7 +16,7 @@ export class Rover {
     let startPos: Array<string> = instructions[0].split(" ");
     this.setPos(parseFloat(startPos[0]), parseFloat(startPos[1]));
     this.setDirection(startPos[2]);
-    this.#instructions = instructions[1].toUpperCase();
+    this.setInstructions(instructions[1]);
   }
 
   setPos(x: number, y: number) {
@@ -35,6 +35,10 @@ export class Rover {
       throw Error("invalid starting direction");
     }
     this.#direction = direction.toUpperCase();
+  }
+
+  setInstructions(instructions: string = "") {
+    this.#instructions = instructions.toUpperCase();
   }
 
   getPos(): string {

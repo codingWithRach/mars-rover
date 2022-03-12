@@ -4,7 +4,6 @@ import { Coordinate } from "../src/coordinate";
 const plateau: Coordinate = { x: 5, y: 5 };
 
 describe("Rover class constructor", () => {
-  const plateau: Coordinate = { x: 5, y: 5 };
   test.each([[["1 2 N", "LMLMLMLMM"]], [["3 3 E", "MMRMMRMRRM"]]])(
     "sets private class variables for starting position and instructions given by %p",
     (roverDefinition: Array<string>) => {
@@ -226,6 +225,21 @@ describe("processInstructions", () => {
       expect(() => {
         const rover = new Rover(plateau, true, roverDefinition);
       }).toThrow("invalid starting direction");
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([
+    [["1 2 N"], "1 2 N"],
+    [["3 3 E"], "3 3 E"],
+  ])(
+    "returns start position when no instructions provided",
+    (roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, true, roverDefinition);
+      expect(rover.getInstructions()).toEqual("");
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
     }
   );
 });
