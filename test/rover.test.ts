@@ -117,3 +117,62 @@ describe("processInstructions", () => {
     }
   );
 });
+
+const singleSquarePlateau: Coordinate = { x: 0, y: 0 };
+describe("processInstructions", () => {
+  test.each([
+    [singleSquarePlateau, ["0 0 N", "L"], "0 0 W"],
+    [singleSquarePlateau, ["0 0 N", "R"], "0 0 E"],
+    [singleSquarePlateau, ["0 0 N", "M"], "0 0 N"],
+    [singleSquarePlateau, ["0 0 S", "M"], "0 0 S"],
+    [singleSquarePlateau, ["0 0 W", "M"], "0 0 W"],
+    [singleSquarePlateau, ["0 0 E", "M"], "0 0 E"],
+    [singleSquarePlateau, ["0 0 E", " "], "0 0 E"],
+    [singleSquarePlateau, ["0 0 N", "LLLLL"], "0 0 W"],
+    [singleSquarePlateau, ["0 0 N", "RRRRR"], "0 0 E"],
+    [singleSquarePlateau, ["0 0 N", "LMLMLMLMM"], "0 0 W"],
+    [singleSquarePlateau, ["0 0 E", "MMRMMRMRRM"], "0 0 E"],
+  ])(
+    "works as expected for a non-dumb rover attempting to move on a single square plateau",
+    (plateau: Coordinate, roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, false, roverDefinition);
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([
+    [singleSquarePlateau, ["0 0 N", "L"], "0 0 W"],
+    [singleSquarePlateau, ["0 0 N", "R"], "0 0 E"],
+    [singleSquarePlateau, ["0 0 N", "LLLLL"], "0 0 W"],
+    [singleSquarePlateau, ["0 0 N", "RRRRR"], "0 0 E"],
+  ])(
+    "works as expected for a non-dumb rover attempting to turn on a single square plateau",
+    (plateau: Coordinate, roverDefinition: Array<string>, endPos: string) => {
+      const rover = new Rover(plateau, true, roverDefinition);
+      rover.processInstructions();
+      expect(rover.getPos()).toEqual(endPos);
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([
+    [singleSquarePlateau, ["0 0 N", "M"]],
+    [singleSquarePlateau, ["0 0 S", "M"]],
+    [singleSquarePlateau, ["0 0 W", "M"]],
+    [singleSquarePlateau, ["0 0 E", "M"]],
+    [singleSquarePlateau, ["0 0 N", "LMLMLMLMM"]],
+    [singleSquarePlateau, ["0 0 E", "MMRMMRMRRM"]],
+  ])(
+    "throws an error for a dumb rover attempting to move on a single square plateau",
+    (plateau: Coordinate, roverDefinition: Array<string>) => {
+      const rover = new Rover(plateau, true, roverDefinition);
+      expect(() => {
+        rover.processInstructions();
+      }).toThrow("rover has fallen off plateau");
+    }
+  );
+});
