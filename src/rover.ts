@@ -76,7 +76,12 @@ export class Rover {
       if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
         if (this.move()) {
-          if (this.#x > this.#plateau["x"])
+          if (
+            this.#x < 0 ||
+            this.#x > this.#plateau["x"] ||
+            this.#y < 0 ||
+            this.#y > this.#plateau["y"]
+          )
             throw Error("rover has fallen off plateau");
         } else {
           // if unable to perform the move, stop processing

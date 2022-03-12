@@ -72,8 +72,13 @@ describe("processInstructions", () => {
 });
 
 describe("processInstructions", () => {
-  test.each([[plateau, ["1 2 E", "MMMMMRMLMMMM"]]])(
-    "throws error when a dumb rover moves beyond maximum x dimension of plateau",
+  test.each([
+    [plateau, ["1 2 E", "MMMMMRMLMMMM"]],
+    [plateau, ["1 2 W", "MMMMMRMLMMMM"]],
+    [plateau, ["1 2 N", "MMMMMRMLMMMM"]],
+    [plateau, ["1 2 S", "MMMMMRMLMMMM"]],
+  ])(
+    "throws error when a dumb rover moves beyond edge of plateau",
     (plateau: Plateau, roverDefinition: Array<string>) => {
       const rover = new Rover(plateau, true, roverDefinition);
       expect(() => {
@@ -84,8 +89,13 @@ describe("processInstructions", () => {
 });
 
 describe("processInstructions", () => {
-  test.each([[plateau, ["1 2 E", "MMMMMRMLMMMM"], "5 2 E"]])(
-    "stops processing when a non-dumb rover attempts to move beyond maximum x dimension of plateau",
+  test.each([
+    [plateau, ["1 2 E", "MMMMMRMLMMMM"], "5 2 E"],
+    [plateau, ["1 2 W", "MMMMMRMLMMMM"], "0 2 W"],
+    [plateau, ["1 2 N", "MMMMMRMLMMMM"], "1 5 N"],
+    [plateau, ["1 2 S", "MMMMMRMLMMMM"], "1 0 S"],
+  ])(
+    "stops processing when a non-dumb rover attempts to move beyond edge of plateau",
     (plateau: Plateau, roverDefinition: Array<string>, endPos: string) => {
       const rover = new Rover(plateau, false, roverDefinition);
       rover.processInstructions();
