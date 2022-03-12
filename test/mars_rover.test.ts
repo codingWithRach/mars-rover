@@ -1,4 +1,5 @@
 import { marsRover } from "../src/mars_rover";
+import {ErrorType} from "../src/error_type"}
 
 describe("marsRover", () => {
   test.each([["5 5"]])(
@@ -15,7 +16,7 @@ describe("marsRover", () => {
     (plateauString: string) => {
       expect(() => {
         marsRover(plateauString);
-      }).toThrow(Error("invalid plateau"));
+      }).toThrow(Error(ErrorType.ERR_INVALID_PLATEAU));
     }
   );
 });
