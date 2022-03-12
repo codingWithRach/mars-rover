@@ -1,5 +1,6 @@
 import { Rover } from "../src/rover";
 import { Coordinate } from "../src/coordinate";
+import { ErrorType } from "../src/error_type";
 
 const plateau: Coordinate = { x: 5, y: 5 };
 
@@ -79,7 +80,7 @@ describe("processInstructions", () => {
       const rover = new Rover(plateau, true, roverDefinition);
       expect(() => {
         rover.processInstructions();
-      }).toThrow("rover has fallen off plateau");
+      }).toThrow(ErrorType.ERR_INVALID_POS);
     }
   );
 });
@@ -168,7 +169,7 @@ describe("processInstructions", () => {
       const rover = new Rover(singleSquarePlateau, true, roverDefinition);
       expect(() => {
         rover.processInstructions();
-      }).toThrow("invalid position or rover has fallen off plateau");
+      }).toThrow(ErrorType.ERR_INVALID_POS);
     }
   );
 });
@@ -189,7 +190,7 @@ describe("processInstructions", () => {
     (roverDefinition: Array<string>, isDumb: boolean) => {
       expect(() => {
         const rover = new Rover(plateau, isDumb, roverDefinition);
-      }).toThrow("invalid position or rover has fallen off plateau");
+      }).toThrow(ErrorType.ERR_INVALID_POS);
     }
   );
 });
@@ -206,7 +207,7 @@ describe("processInstructions", () => {
     (roverDefinition: Array<string>) => {
       expect(() => {
         const rover = new Rover(plateau, true, roverDefinition);
-      }).toThrow("invalid position or rover has fallen off plateau");
+      }).toThrow(ErrorType.ERR_INVALID_POS);
     }
   );
 });
@@ -224,7 +225,7 @@ describe("processInstructions", () => {
     (roverDefinition: Array<string>) => {
       expect(() => {
         const rover = new Rover(plateau, true, roverDefinition);
-      }).toThrow("invalid starting direction");
+      }).toThrow(ErrorType.ERR_INVALID_DIR);
     }
   );
 });

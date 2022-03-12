@@ -1,4 +1,5 @@
 import { Coordinate, isValidCoordinate } from "../src/coordinate";
+import { ErrorType } from "../src/error_type";
 export class Rover {
   #plateau: Coordinate;
   #isDumb: boolean;
@@ -25,14 +26,14 @@ export class Rover {
       x > this.#plateau.x ||
       y > this.#plateau.y
     ) {
-      throw Error("invalid position or rover has fallen off plateau");
+      throw Error(ErrorType.ERR_INVALID_POS);
     }
     this.#position = { x, y };
   }
 
   setDirection(direction: string = "") {
     if (!"NSWE".includes(direction.toUpperCase()) || direction.length !== 1) {
-      throw Error("invalid starting direction");
+      throw Error(ErrorType.ERR_INVALID_DIR);
     }
     this.#direction = direction.toUpperCase();
   }
