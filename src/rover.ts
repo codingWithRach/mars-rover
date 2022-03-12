@@ -21,6 +21,9 @@ export class Rover {
   }
 
   setPos(x: number, y: number) {
+    if (x < 0 || x > this.#plateau.x || y < 0 || y > this.#plateau.y) {
+      throw Error("rover has fallen off plateau");
+    }
     this.#x = x;
     this.#y = y;
   }
@@ -79,18 +82,8 @@ export class Rover {
     for (const action of this.#instructions) {
       if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
-        if (this.move()) {
-          if (
-            this.#x < 0 ||
-            this.#x > this.#plateau["x"] ||
-            this.#y < 0 ||
-            this.#y > this.#plateau["y"]
-          )
-            throw Error("rover has fallen off plateau");
-        } else {
-          // if unable to perform the move, stop processing
-          return false;
-        }
+        // if unable to perform the move, stop processing
+        if (!this.move()) return false;
       }
       // if the instructions contain an unexpected character, stop processing
       else return;

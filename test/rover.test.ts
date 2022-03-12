@@ -176,3 +176,24 @@ describe("processInstructions", () => {
     }
   );
 });
+
+describe("processInstructions", () => {
+  test.each([
+    [plateau, ["10 2 N", "L"], true],
+    [plateau, ["10 2 N", "R"], false],
+    [plateau, ["10 2 N", "M"], true],
+    [plateau, ["10 2 S", "M"], false],
+    [plateau, ["10 2 W", "M"], true],
+    [plateau, ["10 2 E", "M"], false],
+    [plateau, ["10 2 E", " "], true],
+    [plateau, ["10 2 N", "LMLMLMLMM"], false],
+    [plateau, ["30 3 E", "MMRMMRMRRM"], true],
+  ])(
+    "throws an error for a rover whose starting point is off the edge of the plateau",
+    (plateau: Coordinate, roverDefinition: Array<string>, isDumb: boolean) => {
+      expect(() => {
+        const rover = new Rover(plateau, isDumb, roverDefinition);
+      }).toThrow("rover has fallen off plateau");
+    }
+  );
+});
