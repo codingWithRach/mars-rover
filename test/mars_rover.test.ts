@@ -124,17 +124,34 @@ describe("marsRover", () => {
 // if a rover is dumb, it will fall off the edge of a plateau or collide with another rover
 describe("for a dumb rover, marsRover", () => {
   beforeEach(() => configDumb(true));
-  test.each([
-    ["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM", "1 2 N, 3 1 E"],
-  ])(
+  test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM"]])(
     "if first rover coincides with start position of second rover, first rover crashes",
     (
       plateauString: string,
       roverOneStart: string,
       roverOneInstruction: string,
       roverTwoStart: string,
-      roverTwoInstruction: string,
-      endPos: string
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
+  test.each([["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "LMLMLMRMMLMMR"]])(
+    "if second rover coincides with end position of first rover, second rover crashes",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
     ) => {
       expect(() => {
         marsRover(
@@ -175,16 +192,41 @@ describe("for an intelligent rover, marsRover", () => {
       ).toEqual(endPos);
     }
   );
+  test.each([
+    ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "LMLMLMRMMLMMR", "1 3 N, 2 3 W"],
+  ])(
+    "if second rover coincides with end position of first rover, second rover stops processing",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
+    }
+  );
 });
 
 // 2 rovers that coincide
 // first completes and second coincides with end pos of first - second crashes/stops
 
+// two rovers with the same start point
+
 // first rover falls off edge - check second still processes
 // second rover falls off edge
+
+// check for invalid instructions (dumb/intelligent)
 
 // check for different shapes of plateau (inc straight line, single point)
 
 // then add more complex tests (including more than two rovers) and consider edge cases
-
-// before final check-in, ensure that all tests run with configDumb(true)  and with configDumb(false)
