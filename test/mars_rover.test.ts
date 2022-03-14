@@ -184,6 +184,46 @@ describe("for a dumb rover, marsRover", () => {
       }).toThrow(ErrorType.ERR_OCCUPIED_POS);
     }
   );
+  test.each([["5 5", "1 2 N", "LMMMMMMMMLMLMLMM", "1 3 E", "MMRMMRMRRM"]])(
+    "if first rover falls off the plateau, the crash stops processing",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_INVALID_POS);
+    }
+  );
+  test.each([["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMMMMMMMMMMRMMRMRRM"]])(
+    "if second rover falls off the plateau, the crash stops processing",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_INVALID_POS);
+    }
+  );
 });
 
 // if a rover is intelligent, it will stop processing when it encounters the edge of a plateau or another rover
@@ -253,6 +293,59 @@ describe("for an intelligent rover, marsRover", () => {
           roverTwoInstruction
         );
       }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
+  test.each([
+    ["5 5", "1 2 N", "LMMMMMMMMLMLMLMM", "3 3 E", "MMRMMRMRRM", "0 2 W, 5 1 E"],
+  ])(
+    "first rover stops processing instead of falling off plateau, and second rover is processed as normal",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
+    }
+  );
+  test.each([
+    [
+      "5 5",
+      "1 2 N",
+      "LMLMLMLMM",
+      "3 3 E",
+      "MMMMMMMMMMMRMMRMRRM",
+      "1 3 N, 5 3 E",
+    ],
+  ])(
+    "second rover stops processing instead of falling off plateau",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
     }
   );
 });
