@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "npx jest ../test/mars_rover.test.ts"
+    "test": "npx jest"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
