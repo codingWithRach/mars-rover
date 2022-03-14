@@ -62,9 +62,21 @@ For each Rover, the output represents its final position (final coordinates and 
 
 First, fork and clone this repository
 
-Then run the command: npm install
+Install the dependencies using the command: 
 
-Then run the command: npm test
+    npm install
+
+Run all tests using the command: 
+
+    npm test
+
+To run only the tests relating to the main marsRover function, change the test line in package.json to be:
+
+    "test": "npx jest ../test/mars_rover.test.ts"
+    
+and then run:
+    
+    npm test
 
 # Configuration
 
