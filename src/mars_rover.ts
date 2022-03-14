@@ -5,7 +5,7 @@ import { ErrorType } from "../src/error_type";
 // this flag determines whether or not the rovers being tested are dumb (a single flag applies to all rovers)
 // - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
 // - if false, the rovers are intelligent i.e. will stop processing when they encounter the edge of a plateau or another rover
-let isDumb: boolean;
+let isDumb: boolean = false;
 export function configDumb(dumbFlag: boolean) {
   isDumb = dumbFlag;
 }

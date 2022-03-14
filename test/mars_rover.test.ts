@@ -1,12 +1,6 @@
 import { marsRover, configDumb } from "../src/mars_rover";
 import { ErrorType } from "../src/error_type";
 
-// configure whether or not the rovers being tested are dumb (a single flag applies to all rovers)
-// - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
-// - if false, the rovers are intelligent i.e. will stop processing when they encounter the edge of a plateau or another rover
-const isDumb = true;
-beforeAll(() => configDumb(isDumb));
-
 describe("marsRover", () => {
   test.each([["5 5"]])(
     "returns empty string if passed valid plateau %p but no instructions",
@@ -127,11 +121,13 @@ describe("marsRover", () => {
   );
 });
 
-describe("marsRover", () => {
+// if a rover is dumb, it will fall off the edge of a plateau or collide with another rover
+describe("for a dumb rover, marsRover", () => {
+  beforeEach(() => configDumb(true));
   test.each([
     ["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM", "1 2 N, 3 1 E"],
   ])(
-    "if first rover coincides with start position of second rover, first rover crashes (if dumb) or stops processing (if not dumb)",
+    "if first rover coincides with start position of second rover, first rover crashes",
     (
       plateauString: string,
       roverOneStart: string,
@@ -140,37 +136,55 @@ describe("marsRover", () => {
       roverTwoInstruction: string,
       endPos: string
     ) => {
-      if (isDumb) {
-        expect(() => {
-          marsRover(
-            plateauString,
-            roverOneStart,
-            roverOneInstruction,
-            roverTwoStart,
-            roverTwoInstruction
-          );
-        }).toThrow(ErrorType.ERR_OCCUPIED_POS);
-      } else {
-        expect(
-          marsRover(
-            plateauString,
-            roverOneStart,
-            roverOneInstruction,
-            roverTwoStart,
-            roverTwoInstruction
-          )
-        ).toEqual(endPos);
-      }
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
+});
+
+// if a rover is intelligent, it will stop processing when it encounters the edge of a plateau or another rover
+describe("for an intelligent rover, marsRover", () => {
+  beforeEach(() => configDumb(false));
+  test.each([
+    ["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM", "1 2 N, 3 1 E"],
+  ])(
+    "if first rover coincides with start position of second rover, first rover stops processing",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
     }
   );
 });
 
 // 2 rovers that coincide
-// first coincides with position of second - first crashes/stops
 // first completes and second coincides with end pos of first - second crashes/stops
 
 // first rover falls off edge - check second still processes
+// second rover falls off edge
 
-// then add more complex tests and consider edge cases
+// check for different shapes of plateau (inc straight line, single point)
+
+// then add more complex tests (including more than two rovers) and consider edge cases
 
 // before final check-in, ensure that all tests run with configDumb(true)  and with configDumb(false)
