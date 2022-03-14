@@ -164,6 +164,26 @@ describe("for a dumb rover, marsRover", () => {
       }).toThrow(ErrorType.ERR_OCCUPIED_POS);
     }
   );
+  test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 2 N", "MMRMMRMRRM"]])(
+    "doesn't allow multiple rovers with the same start position",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
 });
 
 // if a rover is intelligent, it will stop processing when it encounters the edge of a plateau or another rover
@@ -215,12 +235,27 @@ describe("for an intelligent rover, marsRover", () => {
       ).toEqual(endPos);
     }
   );
+  test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 2 N", "MMRMMRMRRM"]])(
+    "doesn't allow multiple rovers with the same start position",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+    }
+  );
 });
-
-// 2 rovers that coincide
-// first completes and second coincides with end pos of first - second crashes/stops
-
-// two rovers with the same start point
 
 // first rover falls off edge - check second still processes
 // second rover falls off edge
