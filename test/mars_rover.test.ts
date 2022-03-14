@@ -244,7 +244,10 @@ describe("for a dumb rover, marsRover", () => {
       }).toThrow(ErrorType.ERR_OCCUPIED_POS);
     }
   );
-  test.each([["5 5", "1 2 N", "LMMMMMMMMLMLMLMM", "1 3 E", "MMRMMRMRRM"]])(
+  test.each([
+    ["5 5", "1 2 N", "LMMMMMMMMLMLMLMM", "1 3 E", "MMRMMRMRRM"],
+    ["0 0", "0 0 N", "LMMMMMMMMLMLMLMM", "1 3 E", "MMRMMRMRRM"],
+  ])(
     "if first rover falls off the plateau, the crash stops processing",
     (
       plateauString: string,
@@ -366,7 +369,10 @@ describe("for an intelligent rover, marsRover", () => {
       ).toEqual(endPos);
     }
   );
-  test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 2 N", "MMRMMRMRRM"]])(
+  test.each([
+    ["5 5", "1 2 N", "LMLMLMLMM", "1 2 N", "MMRMMRMRRM"],
+    ["0 0", "0 0 N", "LMMMMMMMMLMLMLMM", "0 0 E", "MMRMMRMRRM"],
+  ])(
     "doesn't allow multiple rovers with the same start position",
     (
       plateauString: string,
