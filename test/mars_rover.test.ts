@@ -78,6 +78,66 @@ describe("marsRover", () => {
 
 describe("marsRover", () => {
   test.each([
+    ["5 5", "10 20 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 N", "LMLMLMLMM", "30 30 E", "MMRMMRMRRM"],
+    ["5 5", "10 20 N", "LMLMLMLMM", "30 30 E", "MMRMMRMRRM"],
+    ["5 5", "", "LMLMLMLMM", "30 30 E", "MMRMMRMRRM"],
+    ["5 5", "A B C", "LMLMLMLMM", "30 30 E", "MMRMMRMRRM"],
+  ])(
+    "throws an error for a rover with an invalid starting position",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_INVALID_POS);
+    }
+  );
+});
+
+describe("marsRover", () => {
+  test.each([
+    ["5 5", "1 2", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 3 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 X", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 L", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 R", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 M", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+    ["5 5", "1 2 ????", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
+  ])(
+    "throws an error for a rover with an invalid starting direction",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string
+    ) => {
+      expect(() => {
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        );
+      }).toThrow(ErrorType.ERR_INVALID_DIR);
+    }
+  );
+});
+
+describe("marsRover", () => {
+  test.each([
     ["5 5", "1 2 N", "LMLMLMLMM", "1 3 N"],
     ["5 5", "3 3 E", "MMRMMRMRRM", "5 1 E"],
   ])(
