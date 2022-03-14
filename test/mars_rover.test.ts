@@ -23,7 +23,7 @@ describe("marsRover", () => {
 
 describe("marsRover", () => {
   test.each([["5 5", "1 2 N"]])(
-    "returns start position %p if passed start position for one rover but no movement instructions",
+    "returns start position if passed start position for one rover but no movement instructions",
     (plateauString: string, roverStart: string) => {
       expect(marsRover(plateauString, roverStart)).toEqual(roverStart);
     }
@@ -224,6 +224,37 @@ describe("for a dumb rover, marsRover", () => {
       }).toThrow(ErrorType.ERR_INVALID_POS);
     }
   );
+  test.each([
+    [
+      "5 5",
+      "1 2 N",
+      "LMLMLXMLMM",
+      "3 3 E",
+      "MRM MMMMMMMMMRMMRMRRM",
+      "0 1 E, 4 2 S",
+    ],
+    ["5 5", "1 2 N", " ", "3 3 E", "", "1 2 N, 3 3 E"],
+  ])(
+    "each rover stops processing if it reaches an invalid instruction",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
+    }
+  );
 });
 
 // if a rover is intelligent, it will stop processing when it encounters the edge of a plateau or another rover
@@ -348,12 +379,38 @@ describe("for an intelligent rover, marsRover", () => {
       ).toEqual(endPos);
     }
   );
+  test.each([
+    [
+      "5 5",
+      "1 2 N",
+      "LMLMLXMLMM",
+      "3 3 E",
+      "MRM MMMMMMMMMRMMRMRRM",
+      "0 1 E, 4 2 S",
+    ],
+    ["5 5", "1 2 N", " ", "3 3 E", "", "1 2 N, 3 3 E"],
+  ])(
+    "each rover stops processing if it reaches an invalid instruction",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction
+        )
+      ).toEqual(endPos);
+    }
+  );
 });
-
-// first rover falls off edge - check second still processes
-// second rover falls off edge
-
-// check for invalid instructions (dumb/intelligent)
 
 // check for different shapes of plateau (inc straight line, single point)
 
