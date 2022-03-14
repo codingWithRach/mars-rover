@@ -154,6 +154,15 @@ describe("marsRover", () => {
 });
 
 describe("marsRover", () => {
+  const size = 100000;
+  const subInstruction: string = ["L"].concat(new Array(5).fill("M")).join("");
+  const instruction: string = new Array(size).fill(subInstruction).join("");
+  test("given long instructions, returns expected end position", () => {
+    expect(marsRover("5 5", "0 0 S", instruction)).toEqual("0 0 S");
+  });
+});
+
+describe("marsRover", () => {
   test.each([
     ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM", "1 3 N, 5 1 E"],
     ["5 5", "1 2 N", "", "3 3 E", "MMRMMRMRRM", "1 2 N, 5 1 E"],
@@ -478,5 +487,3 @@ describe("for an intelligent rover, marsRover", () => {
     }
   );
 });
-
-// then add more complex tests (including more than two rovers) and consider edge cases
