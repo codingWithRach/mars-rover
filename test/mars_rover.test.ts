@@ -158,6 +158,7 @@ describe("marsRover", () => {
     ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM", "1 3 N, 5 1 E"],
     ["5 5", "1 2 N", "", "3 3 E", "MMRMMRMRRM", "1 2 N, 5 1 E"],
     ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "", "1 3 N, 3 3 E"],
+    ["0 50", "0 2 N", "MLLLLMMMMR", "0 10 S", "RRMMMLLMMMM", "0 7 E, 0 9 S"],
   ])(
     "given valid start position and instructions two rovers that don't coincide, returns expected end positions",
     (
@@ -477,7 +478,5 @@ describe("for an intelligent rover, marsRover", () => {
     }
   );
 });
-
-// check for different shapes of plateau (inc straight line, single point)
 
 // then add more complex tests (including more than two rovers) and consider edge cases
