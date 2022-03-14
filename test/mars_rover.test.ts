@@ -154,9 +154,7 @@ describe("marsRover", () => {
 });
 
 describe("marsRover", () => {
-  const size = 100000;
-  const subInstruction: string = ["L"].concat(new Array(5).fill("M")).join("");
-  const instruction: string = new Array(size).fill(subInstruction).join("");
+  const instruction: string = new Array(100000).fill("LMMMMM").join("");
   test("given long instructions, returns expected end position", () => {
     expect(marsRover("5 5", "0 0 S", instruction)).toEqual("0 0 S");
   });
