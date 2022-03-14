@@ -191,6 +191,45 @@ describe("marsRover", () => {
   );
 });
 
+describe("marsRover", () => {
+  test.each([
+    [
+      "5 5",
+      "1 2 N",
+      "LMLMLMLMM",
+      "3 3 E",
+      "MMRMMRMRRM",
+      "0 5 W",
+      "LMLMMMMLMLMMLMMMMMR",
+      "1 3 N, 5 1 E, 2 0 W",
+    ],
+  ])(
+    "given valid start position and instructions three rovers that don't coincide, returns expected end positions",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverTwoInstruction: string,
+      roverThreeStart: string,
+      roverThreeInstruction: string,
+      endPos: string
+    ) => {
+      expect(
+        marsRover(
+          plateauString,
+          roverOneStart,
+          roverOneInstruction,
+          roverTwoStart,
+          roverTwoInstruction,
+          roverThreeStart,
+          roverThreeInstruction
+        )
+      ).toEqual(endPos);
+    }
+  );
+});
+
 // if a rover is dumb, it will fall off the edge of a plateau or collide with another rover
 describe("for a dumb rover, marsRover", () => {
   beforeEach(() => configDumb(true));
