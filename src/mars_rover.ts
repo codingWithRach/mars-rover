@@ -44,10 +44,10 @@ export function marsRover(
   }
 
   // check whether any of the rovers shares a start position
-  const dupStartPos = allStartPos.filter(
-    (item, index) => allStartPos.indexOf(item) != index
-  );
-  if (dupStartPos.length > 0) {
+  if (
+    allStartPos.filter((item, index) => allStartPos.indexOf(item) != index)
+      .length > 0
+  ) {
     throw Error(ErrorType.ERR_OCCUPIED_POS);
   }
 
