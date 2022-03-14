@@ -66,17 +66,27 @@ Then run the command: npm install
 
 Then run the command: npm test
 
+# Configuration
+
+Two different solutions have been implemented, depending on whether rovers are dumb or intelligent.
+
+A single flag for all rovers can be set by calling the function configDumb in mars_rover.ts:
+
+- pass true for a dumb rover i.e. one that will crash if it falls off the edge of the plateau or collides with another rover
+
+- pass false for an intelligent rover i.e. one that will detect an attempt to move beyond the edge of the plateau or into a position already occupied by another rover, and will stop processing
+
+If no flag is specifically set, the rovers default to being intelligent.
+
 # Assumptions
 
-1. Although the rovers move sequentially, I assume they're all in their start positions before any rover starts to move.
+1. Although the rovers move sequentially, they are all in their start positions before any rover starts to move.
 
 2. If a rover encounters an invalid instruction (i.e. not L, R or M) then it will stop processing and its end position will be its position at that moment.  Instructions will be followed as normal for all subsequent rovers.
 
-2. I have implemented two different solutions, depending on whether the rover is dumb or intelligent.  
-
-   If the rover is dumb, then if it encounters any of the following, it will crash and all processing will stop.
+2. If the rover is dumb, then if it encounters any of the following, it will crash and all processing will stop.
    
-   If the rover is intelligent, then if it encounters any of the following, it will stop processing and it's end position will be its position at that moment.  Instructions will be followed as normal for all subsequent rovers.
+   If the rover is intelligent, then if it encounters any of the following, it will stop processing and its end position will be its position at that moment.  Instructions will be followed as normal for all subsequent rovers.
    
    - the next move would require the rover to travel beyond the edge of the plateau
  
