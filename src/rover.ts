@@ -59,14 +59,6 @@ export class Rover {
     return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
   }
 
-  getInstructions(): string {
-    return this.#instructions;
-  }
-
-  getPlateau(): Coordinate {
-    return this.#plateau;
-  }
-
   spin(spinDirection: string) {
     const directions: Array<string> = ["N", "W", "S", "E"];
     this.#direction =

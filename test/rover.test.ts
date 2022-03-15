@@ -10,8 +10,6 @@ describe("Rover class constructor", () => {
     (roverDefinition: Array<string>) => {
       const rover = new Rover(plateau, true, roverDefinition);
       expect(rover.getPos()).toEqual(roverDefinition[0]);
-      expect(rover.getInstructions()).toEqual(roverDefinition[1]);
-      expect(rover.getPlateau()).toEqual(plateau);
     }
   );
 });
@@ -238,7 +236,6 @@ describe("processInstructions", () => {
     "returns start position when no instructions provided",
     (roverDefinition: Array<string>, endPos: string) => {
       const rover = new Rover(plateau, true, roverDefinition);
-      expect(rover.getInstructions()).toEqual("");
       rover.processInstructions();
       expect(rover.getPos()).toEqual(endPos);
     }
