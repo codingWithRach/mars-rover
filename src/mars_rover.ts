@@ -55,20 +55,13 @@ export function marsRover(
     const roverDetails = rovers.shift();
 
     // before processing this rover, need to construct an array of positions for all the other rovers, to ensure they don't collide
-    // first look at the end positions of the rovers that have already been processed
-    const otherProcessedRovers: Array<Coordinate> = endPos.map((pos) => {
-      return createCoordinate(pos);
-    });
-    // now look at the start positions of the rovers that haven't yet been processed
-    const otherUnprocessedRovers: Array<Coordinate> = rovers.map((pos) => {
-      return createCoordinate(pos[0]);
-    });
+    const otherRoverPositions = [
+      ...endPos.map((pos) => createCoordinate(pos)),
+      ...rovers.map((pos) => createCoordinate(pos[0])),
+    ];
 
     // now proccess this rover and update the array of end positions
-    const rover = new Rover(plateau, isDumb, roverDetails, [
-      ...otherProcessedRovers,
-      ...otherUnprocessedRovers,
-    ]);
+    const rover = new Rover(plateau, isDumb, roverDetails, otherRoverPositions);
     rover.processInstructions();
     endPos.push(rover.getPos());
   }
