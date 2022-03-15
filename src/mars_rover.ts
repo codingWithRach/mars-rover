@@ -30,12 +30,8 @@ export function marsRover(
   // - the second element being the instructions
   let endPos: Array<string> = [];
   let rovers: Array<Array<string>> = [];
-  let allStartPos: Array<string> = [];
   for (let i = 1; i < roverInstructions.length; i += 2) {
     rovers.push([roverInstructions[i - 1], roverInstructions[i]]);
-    const thisStartPos: Array<string> = roverInstructions[i - 1].split(" ");
-    thisStartPos.pop();
-    allStartPos.push(thisStartPos.join(" "));
   }
 
   // if the number of instructions is odd, there's a rover left over with no instructions so add this to the array
@@ -44,6 +40,9 @@ export function marsRover(
   }
 
   // check whether any of the rovers shares a start position
+  const allStartPos = rovers.map((rover) =>
+    rover[0].split(" ").slice(0, 2).join(" ")
+  );
   if (
     allStartPos.filter((item, index) => allStartPos.indexOf(item) != index)
       .length > 0
