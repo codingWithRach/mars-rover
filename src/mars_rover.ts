@@ -51,10 +51,8 @@ export function marsRover(
 
   // for each of the rovers, follow the instructions and add the end position to the array
   let endPos: Array<string> = [];
-  const roversToProcess = rovers.slice();
-  for (const rover of rovers) {
-    // remove this rover from the array of rovers still to be processed
-    roversToProcess.shift();
+  while (rovers.length > 0) {
+    const roverDetails = rovers.shift();
 
     // before processing this rover, need to construct an array of positions for all the other rovers, to ensure they don't collide
     // first look at the end positions of the rovers that have already been processed
@@ -62,19 +60,17 @@ export function marsRover(
       return createCoordinate(pos);
     });
     // now look at the start positions of the rovers that haven't yet been processed
-    const otherUnprocessedRovers: Array<Coordinate> = roversToProcess.map(
-      (pos) => {
-        return createCoordinate(pos[0]);
-      }
-    );
+    const otherUnprocessedRovers: Array<Coordinate> = rovers.map((pos) => {
+      return createCoordinate(pos[0]);
+    });
 
     // now proccess this rover and update the array of end positions
-    const thisRover = new Rover(plateau, isDumb, rover, [
+    const rover = new Rover(plateau, isDumb, roverDetails, [
       ...otherProcessedRovers,
       ...otherUnprocessedRovers,
     ]);
-    thisRover.processInstructions();
-    endPos.push(thisRover.getPos());
+    rover.processInstructions();
+    endPos.push(rover.getPos());
   }
 
   // return a comma separated list of end positions
