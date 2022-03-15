@@ -28,7 +28,6 @@ export function marsRover(
   // process remaining arguments to create an array of rovers.  Each rover element is an array with:
   // - the first element being the start position of the rover
   // - the second element being the instructions
-  let endPos: Array<string> = [];
   let rovers: Array<Array<string>> = [];
   for (let i = 1; i < roverInstructions.length; i += 2) {
     rovers.push([roverInstructions[i - 1], roverInstructions[i]]);
@@ -51,6 +50,7 @@ export function marsRover(
   }
 
   // for each of the rovers, follow the instructions and add the end position to the array
+  let endPos: Array<string> = [];
   const roversToProcess = rovers.slice();
   for (const rover of rovers) {
     // remove this rover from the array of rovers still to be processed
