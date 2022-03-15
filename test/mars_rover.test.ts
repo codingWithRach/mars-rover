@@ -11,7 +11,7 @@ describe("marsRover", () => {
 });
 
 describe("marsRover", () => {
-  test.each([["a b"]])(
+  test.each([["a b"], ["1"], ["0.4 1"], ["3 -1"]])(
     "throws error if passed invalid plateau %p but no instructions",
     (plateauString: string) => {
       expect(() => {
