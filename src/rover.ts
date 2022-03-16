@@ -98,7 +98,7 @@ export class Rover {
       if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
         if (!this.move()) {
-          return false;
+          return;
         }
       } else return;
     }
