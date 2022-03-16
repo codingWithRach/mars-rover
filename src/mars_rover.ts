@@ -52,7 +52,7 @@ export function marsRover(
   // for each of the rovers, follow the instructions and add the end position to the array
   let endPos: Array<string> = [];
   while (rovers.length > 0) {
-    const roverDetails = rovers.shift();
+    const roverDetails: Array<string> = rovers.shift();
 
     // before processing this rover, need to construct an array of positions for all the other rovers, to ensure they don't collide
     const otherRoverPositions = [
@@ -60,8 +60,24 @@ export function marsRover(
       ...rovers.map((pos) => createCoordinate(pos[0])),
     ];
 
-    // now proccess this rover and update the array of end positions
-    const rover = new Rover(plateau, isDumb, roverDetails, otherRoverPositions);
+    let startPos: Coordinate;
+    try {
+      startPos = createCoordinate(roverDetails[0]);
+    } catch (error) {
+      throw new Error(ErrorType.ERR_INVALID_POS);
+    }
+
+    // create the rover
+    const rover = new Rover(
+      plateau,
+      isDumb,
+      startPos,
+      roverDetails[0].split(" ")[2],
+      roverDetails[1],
+      otherRoverPositions
+    );
+
+    // process the rover instructions and update the array of end positions
     rover.processInstructions();
     endPos.push(rover.getPos());
   }

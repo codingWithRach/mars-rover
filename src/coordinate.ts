@@ -12,7 +12,7 @@ export function isValidCoordinate(plateau: Coordinate): boolean {
 
 // creates a coordinate from a string in the form '5 5' or '5 5 N'
 export function createCoordinate(coordString: string): Coordinate {
-  if (!coordString.match("^[0-9]+ [0-9]+ ?[NSEW]*$"))
+  if (!coordString.match("^[0-9]+ [0-9]+"))
     throw new Error(ErrorType.ERR_INVALID_COORD);
   return {
     x: Number(coordString.split(" ")[0]),

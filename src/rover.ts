@@ -11,16 +11,17 @@ export class Rover {
   constructor(
     plateau: Coordinate,
     isDumb: boolean,
-    instructions: Array<string>,
+    startPos: Coordinate,
+    direction: string = "",
+    instructions: string = "",
     otherRovers: Array<Coordinate> = []
   ) {
     this.#plateau = plateau;
     this.#isDumb = isDumb;
     this.#otherRovers = otherRovers.slice();
-    let startPos: Array<string> = instructions[0].split(" ");
-    this.setPos(Number(startPos[0]), Number(startPos[1]));
-    this.setDirection(startPos[2]);
-    this.setInstructions(instructions[1]);
+    this.setPos(startPos.x, startPos.y);
+    this.setDirection(direction);
+    this.#instructions = instructions.toUpperCase();
   }
 
   setPos(x: number, y: number) {
@@ -49,10 +50,6 @@ export class Rover {
       throw Error(ErrorType.ERR_INVALID_DIR);
     }
     this.#direction = direction.toUpperCase();
-  }
-
-  setInstructions(instructions: string = "") {
-    this.#instructions = instructions.toUpperCase();
   }
 
   getPos(): string {
