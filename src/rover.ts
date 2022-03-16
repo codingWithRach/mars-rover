@@ -25,11 +25,7 @@ export class Rover {
   }
 
   setPos(x: number, y: number) {
-    if (
-      !isValidCoordinate({ x, y }) ||
-      x > this.#plateau.x ||
-      y > this.#plateau.y
-    ) {
+    if (!isValidCoordinate({ x, y }) || !this.isOnPlateau(x, y)) {
       throw Error(ErrorType.ERR_INVALID_POS);
     }
     if (!this.isOccupied(x, y)) this.#position = { x, y };
@@ -44,6 +40,10 @@ export class Rover {
 
   getPosDir(): string {
     return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
+  }
+
+  isOnPlateau(x: number, y: number): boolean {
+    return x >= 0 && x <= this.#plateau.x && y >= 0 && y <= this.#plateau.y;
   }
 
   isOccupied(x: number, y: number): boolean {
@@ -72,14 +72,7 @@ export class Rover {
   // - it's not dumb, but the move would not result in it falling off the edge of the plateau or colliding with another rover
   move() {
     const doMove = (x: number, y: number): boolean => {
-      if (
-        this.#isDumb ||
-        (x >= 0 &&
-          x <= this.#plateau.x &&
-          y >= 0 &&
-          y <= this.#plateau.y &&
-          !this.isOccupied(x, y))
-      ) {
+      if (this.#isDumb || (this.isOnPlateau(x, y) && !this.isOccupied(x, y))) {
         this.setPos(x, y);
         return true;
       } else {
