@@ -35,16 +35,6 @@ export class Rover {
     if (!this.isOccupied(x, y)) this.#position = { x, y };
   }
 
-  isOccupied(x: number, y: number): boolean {
-    for (const roverPos of this.#otherRovers) {
-      if (roverPos.x === x && roverPos.y === y) {
-        if (this.#isDumb) throw Error(ErrorType.ERR_OCCUPIED_POS);
-        else return true;
-      }
-    }
-    return false;
-  }
-
   setDirection(direction: string = "") {
     if (!"NSWE".includes(direction.toUpperCase()) || direction.length !== 1) {
       throw Error(ErrorType.ERR_INVALID_DIR);
@@ -54,6 +44,16 @@ export class Rover {
 
   getPosDir(): string {
     return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
+  }
+
+  isOccupied(x: number, y: number): boolean {
+    for (const roverPos of this.#otherRovers) {
+      if (roverPos.x === x && roverPos.y === y) {
+        if (this.#isDumb) throw Error(ErrorType.ERR_OCCUPIED_POS);
+        else return true;
+      }
+    }
+    return false;
   }
 
   spin(spinDirection: string) {
