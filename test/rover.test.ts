@@ -17,7 +17,7 @@ describe("Rover class constructor", () => {
       endPos: string
     ) => {
       const rover = new Rover(plateau, true, startPos, direction, instructions);
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -32,7 +32,7 @@ describe("spin method", () => {
     (instructions: string, endPos: string) => {
       const rover = new Rover(plateau, true, startPos, "N", instructions);
       rover.spin(instructions);
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -48,7 +48,7 @@ describe("move method", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(plateau, true, startPos, direction, instructions);
       rover.move();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -74,7 +74,7 @@ describe("processInstructions", () => {
     ) => {
       const rover = new Rover(plateau, true, startPos, direction, instructions);
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -118,7 +118,7 @@ describe("processInstructions", () => {
         instructions
       );
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -137,7 +137,7 @@ describe("processInstructions", () => {
     ) => {
       const rover = new Rover(plateau, true, startPos, direction, instructions);
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -167,7 +167,7 @@ describe("processInstructions", () => {
         instructions
       );
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -189,7 +189,7 @@ describe("processInstructions", () => {
         instructions
       );
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -291,7 +291,7 @@ describe("processInstructions", () => {
     (startPos: Coordinate, direction: string, endPos: string) => {
       const rover = new Rover(plateau, true, startPos, direction);
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -344,7 +344,7 @@ describe("processInstructions", () => {
         otherRovers
       );
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
@@ -388,7 +388,7 @@ describe("processInstructions", () => {
         otherRovers
       );
       rover.processInstructions();
-      expect(rover.getPos()).toEqual(endPos);
+      expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });

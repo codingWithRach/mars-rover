@@ -79,7 +79,7 @@ export function marsRover(
 
     // process the rover instructions and update the array of end positions
     rover.processInstructions();
-    endPos.push(rover.getPos());
+    endPos.push(rover.getPosDir());
   }
 
   // return a comma separated list of end positions

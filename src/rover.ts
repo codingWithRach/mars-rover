@@ -52,7 +52,7 @@ export class Rover {
     this.#direction = direction.toUpperCase();
   }
 
-  getPos(): string {
+  getPosDir(): string {
     return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
   }
 
