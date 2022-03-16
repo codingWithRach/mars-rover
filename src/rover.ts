@@ -18,7 +18,7 @@ export class Rover {
   ) {
     this.#plateau = plateau;
     this.#isDumb = isDumb;
-    this.#otherRovers = otherRovers.slice();
+    this.#otherRovers = [...otherRovers];
     this.setPos(startPos.x, startPos.y);
     this.setDirection(direction);
     this.#instructions = instructions.toUpperCase();
