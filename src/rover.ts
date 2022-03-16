@@ -91,17 +91,16 @@ export class Rover {
     }
   }
 
+  // process the list of instructions
+  // if unable to perform the move or instructions contain an unexpected character, stop processing
   processInstructions() {
     for (const action of this.#instructions) {
       if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
-        // if unable to perform the move, stop processing
         if (!this.move()) {
           return false;
         }
-      }
-      // if the instructions contain an unexpected character, stop processing
-      else return;
+      } else return;
     }
   }
 }

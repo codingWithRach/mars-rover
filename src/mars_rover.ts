@@ -10,6 +10,7 @@ export function configDumb(dumbFlag: boolean) {
   isDumb = dumbFlag;
 }
 
+// main function
 export function marsRover(
   plateauString: string,
   ...roverInstructions: Array<string>
@@ -60,6 +61,7 @@ export function marsRover(
       ...rovers.map((pos) => createCoordinate(pos[0])),
     ];
 
+    // determine start position for rover
     let startPos: Coordinate;
     try {
       startPos = createCoordinate(roverDetails[0]);
