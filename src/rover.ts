@@ -47,13 +47,11 @@ export class Rover {
   }
 
   isOccupied(x: number, y: number): boolean {
-    for (const roverPos of this.#otherRovers) {
-      if (roverPos.x === x && roverPos.y === y) {
-        if (this.#isDumb) throw Error(ErrorType.ERR_OCCUPIED_POS);
-        else return true;
-      }
-    }
-    return false;
+    const posIsOccupied = this.#otherRovers.some(
+      (roverPos) => roverPos.x === x && roverPos.y === y
+    );
+    if (this.#isDumb && posIsOccupied) throw Error(ErrorType.ERR_OCCUPIED_POS);
+    return posIsOccupied;
   }
 
   spin(spinDirection: string) {
