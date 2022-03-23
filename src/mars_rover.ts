@@ -26,18 +26,7 @@ export function main(
   if (roverInstructions.length === 0) return "";
 
   // process remaining arguments to create an array of rovers
-  let rovers: Array<Input> = [];
-  for (let i = 1; i < roverInstructions.length; i += 2) {
-    rovers.push({
-      startPosition: roverInstructions[i - 1],
-      instructions: roverInstructions[i],
-    });
-  }
-
-  // if the number of instructions is odd, there's a rover left over with no instructions so add this to the array
-  if (roverInstructions.length % 2 === 1) {
-    rovers.push({ startPosition: roverInstructions.pop(), instructions: "" });
-  }
+  let rovers: Array<Input> = parseInput(roverInstructions);
 
   // check whether any of the rovers shares a start position
   const allStartPos = rovers.map((rover) =>
@@ -86,4 +75,20 @@ export function main(
 
   // return a comma separated list of end positions
   return endPos.join(", ");
+}
+
+function parseInput(roverInstructions: Array<string>): Array<Input> {
+  let rovers: Array<Input> = [];
+  for (let i = 1; i < roverInstructions.length; i += 2) {
+    rovers.push({
+      startPosition: roverInstructions[i - 1],
+      instructions: roverInstructions[i],
+    });
+  }
+
+  // if the number of instructions is odd, there's a rover left over with no instructions so add this to the array
+  if (roverInstructions.length % 2 === 1) {
+    rovers.push({ startPosition: roverInstructions.pop(), instructions: "" });
+  }
+  return rovers;
 }
