@@ -1,53 +1,53 @@
 import { main, configDumb } from "../src/mars_rover";
 import { Errors } from "../src/error_messages";
 
-// describe("marsRover", () => {
-//   test.each([["5 5"]])(
-//     "returns empty string if passed valid plateau %p but no instructions",
-//     (plateauString: string) => {
-//       expect(main(plateauString)).toEqual("");
-//     }
-//   );
-// });
+describe("main", () => {
+  test.each([["5 5"]])(
+    "returns empty string if passed valid plateau %p but no instructions",
+    (plateauString: string) => {
+      expect(main(plateauString)).toEqual("");
+    }
+  );
+});
 
-// describe("marsRover", () => {
-//   test.each([["a b"], ["1"], ["0.4 1"], ["3 -1"]])(
-//     "throws error if passed invalid plateau %p but no instructions",
-//     (plateauString: string) => {
-//       expect(() => {
-//         main(plateauString);
-//       }).toThrow(Error(Errors.INVALID_PLATEAU));
-//     }
-//   );
-// });
+describe("main", () => {
+  test.each([["a b"], ["1"], ["0.4 1"], ["3 -1"]])(
+    "throws error if passed invalid plateau %p but no instructions",
+    (plateauString: string) => {
+      expect(() => {
+        main(plateauString);
+      }).toThrow(Error(Errors.INVALID_PLATEAU));
+    }
+  );
+});
 
-// describe("marsRover", () => {
-//   test.each([["5 5", "1 2 N"]])(
-//     "returns start position if passed start position for one rover but no movement instructions",
-//     (plateauString: string, roverStart: string) => {
-//       expect(main(plateauString, roverStart)).toEqual(roverStart);
-//     }
-//   );
-// });
+describe("main", () => {
+  test.each([["5 5", "1 2 N"]])(
+    "returns start position if passed start position for one rover but no movement instructions",
+    (plateauString: string, roverStart: string) => {
+      expect(main(plateauString, roverStart)).toEqual(roverStart);
+    }
+  );
+});
 
-// describe("marsRover", () => {
-//   test.each([["5 5", "1 2 N", "", "3 3 E", "1 2 N, 3 3 E"]])(
-//     "returns start positions if passed start positions for two rovers with no movement instructions",
-//     (
-//       plateauString: string,
-//       roverOneStart: string,
-//       roverOneInstruction: string,
-//       roverTwoStart: string,
-//       roverEnd: string
-//     ) => {
-//       expect(
-//         main(plateauString, roverOneStart, roverOneInstruction, roverTwoStart)
-//       ).toEqual(roverEnd);
-//     }
-//   );
-// });
+describe("main", () => {
+  test.each([["5 5", "1 2 N", "", "3 3 E", "1 2 N, 3 3 E"]])(
+    "returns start positions if passed start positions for two rovers with no movement instructions",
+    (
+      plateauString: string,
+      roverOneStart: string,
+      roverOneInstruction: string,
+      roverTwoStart: string,
+      roverEnd: string
+    ) => {
+      expect(
+        main(plateauString, roverOneStart, roverOneInstruction, roverTwoStart)
+      ).toEqual(roverEnd);
+    }
+  );
+});
 
-describe("marsRover", () => {
+describe("main", () => {
   test.each([["5 5", "1 2 N", "", "3 3 E", "", "1 2 N, 3 3 E"]])(
     "returns start positions if passed start positions for two rovers with no movement instructions",
     (
@@ -71,7 +71,7 @@ describe("marsRover", () => {
   );
 });
 
-describe("marsRover", () => {
+describe("main", () => {
   test.each([
     ["5 5", "10 20 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
     ["5 5", "1 2 N", "LMLMLMLMM", "30 30 E", "MMRMMRMRRM"],
@@ -100,7 +100,7 @@ describe("marsRover", () => {
   );
 });
 
-describe("marsRover", () => {
+describe("main", () => {
   test.each([
     ["5 5", "1 2", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
     ["5 5", "1 2 3 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM"],
@@ -131,7 +131,7 @@ describe("marsRover", () => {
   );
 });
 
-describe("marsRover", () => {
+describe("main", () => {
   test.each([
     ["5 5", "1 2 N", "LMLMLMLMM", "1 3 N"],
     ["5 5", "3 3 E", "MMRMMRMRRM", "5 1 E"],
@@ -148,14 +148,14 @@ describe("marsRover", () => {
   );
 });
 
-describe("marsRover", () => {
+describe("main", () => {
   const instruction: string = new Array(100000).fill("LMMMMM").join("");
   test("given long instructions, returns expected end position", () => {
     expect(main("5 5", "0 0 S", instruction)).toEqual("0 0 S");
   });
 });
 
-describe("marsRover", () => {
+describe("main", () => {
   test.each([
     ["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMRMMRMRRM", "1 3 N, 5 1 E"],
     ["5 5", "1 2 N", "", "3 3 E", "MMRMMRMRRM", "1 2 N, 5 1 E"],
@@ -184,7 +184,7 @@ describe("marsRover", () => {
   );
 });
 
-describe("marsRover", () => {
+describe("main", () => {
   test.each([
     [
       "5 5",
