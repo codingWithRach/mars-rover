@@ -63,7 +63,7 @@ function processRovers(plateau: Coordinate, rovers: Array<Input>): string {
       plateau,
       isDumb,
       getStartPos(roverDetails),
-      roverDetails.startPosition.split(" ")[2],
+      getStartDir(roverDetails),
       roverDetails.instructions,
       getAllRoverPositions(endPos, rovers)
     );
@@ -89,4 +89,8 @@ function getStartPos(roverDetails: Input): Coordinate {
   } catch (error) {
     throw new Error(Errors.INVALID_POS);
   }
+}
+
+function getStartDir(roverDetails: Input): string {
+  return roverDetails.startPosition.split(" ")[2];
 }
