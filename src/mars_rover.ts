@@ -29,15 +29,7 @@ export function main(
   let rovers: Array<Input> = parseInput(roverInstructions);
 
   // check whether any of the rovers shares a start position
-  const allStartPos = rovers.map((rover) =>
-    rover.startPosition.split(" ").slice(0, 2).join(" ")
-  );
-  if (
-    allStartPos.filter((item, index) => allStartPos.indexOf(item) != index)
-      .length > 0
-  ) {
-    throw Error(Errors.OCCUPIED_POS);
-  }
+  checkSharedStartPos(rovers);
 
   // for each of the rovers, follow the instructions and add the end position to the array
   let endPos: Array<string> = [];
@@ -91,4 +83,16 @@ function parseInput(roverInstructions: Array<string>): Array<Input> {
     rovers.push({ startPosition: roverInstructions.pop(), instructions: "" });
   }
   return rovers;
+}
+
+function checkSharedStartPos(rovers: Array<Input>): void {
+  const allStartPos = rovers.map((rover) =>
+    rover.startPosition.split(" ").slice(0, 2).join(" ")
+  );
+  if (
+    allStartPos.filter((item, index) => allStartPos.indexOf(item) != index)
+      .length > 0
+  ) {
+    throw Error(Errors.OCCUPIED_POS);
+  }
 }
