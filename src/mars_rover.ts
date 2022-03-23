@@ -21,52 +21,10 @@ export function main(
   } catch (error) {
     throw new Error(Errors.INVALID_PLATEAU);
   }
-
-  // if no rovers have been received, no action is required
   if (roverInstructions.length === 0) return "";
-
-  // process remaining arguments to create an array of rovers
   let rovers: Array<Input> = parseInput(roverInstructions);
-
-  // check whether any of the rovers shares a start position
   checkSharedStartPos(rovers);
-
-  // for each of the rovers, follow the instructions and add the end position to the array
-  let endPos: Array<string> = [];
-  while (rovers.length > 0) {
-    const roverDetails: Input = rovers.shift();
-
-    // before processing this rover, need to construct an array of positions for all the other rovers, to ensure they don't collide
-    const otherRoverPositions = [
-      ...endPos.map((pos) => createCoordinate(pos)),
-      ...rovers.map((pos) => createCoordinate(pos.startPosition)),
-    ];
-
-    // determine start position for rover
-    let startPos: Coordinate;
-    try {
-      startPos = createCoordinate(roverDetails.startPosition);
-    } catch (error) {
-      throw new Error(Errors.INVALID_POS);
-    }
-
-    // create the rover
-    const rover = new Rover(
-      plateau,
-      isDumb,
-      startPos,
-      roverDetails.startPosition.split(" ")[2],
-      roverDetails.instructions,
-      otherRoverPositions
-    );
-
-    // process the rover instructions and update the array of end positions
-    rover.processInstructions();
-    endPos.push(rover.getPosDir());
-  }
-
-  // return a comma separated list of end positions
-  return endPos.join(", ");
+  return processRovers(plateau, rovers);
 }
 
 function parseInput(roverInstructions: Array<string>): Array<Input> {
@@ -95,4 +53,44 @@ function checkSharedStartPos(rovers: Array<Input>): void {
   ) {
     throw Error(Errors.OCCUPIED_POS);
   }
+}
+
+function processRovers(plateau: Coordinate, rovers: Array<Input>): string {
+  let endPos: Array<string> = [];
+  while (rovers.length > 0) {
+    const roverDetails: Input = rovers.shift();
+
+    // determine start position for rover
+    let startPos: Coordinate;
+    try {
+      startPos = createCoordinate(roverDetails.startPosition);
+    } catch (error) {
+      throw new Error(Errors.INVALID_POS);
+    }
+
+    // create the rover
+    const rover = new Rover(
+      plateau,
+      isDumb,
+      startPos,
+      roverDetails.startPosition.split(" ")[2],
+      roverDetails.instructions,
+      getAllRoverPositions(endPos, rovers)
+    );
+
+    // process the rover instructions and update the array of end positions
+    rover.processInstructions();
+    endPos.push(rover.getPosDir());
+  }
+  return endPos.join(", ");
+}
+
+function getAllRoverPositions(
+  endPos: Array<string>,
+  rovers: Array<Input>
+): Array<Coordinate> {
+  return [
+    ...endPos.map((pos) => createCoordinate(pos)),
+    ...rovers.map((pos) => createCoordinate(pos.startPosition)),
+  ];
 }
