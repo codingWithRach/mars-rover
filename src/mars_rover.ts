@@ -59,26 +59,14 @@ function processRovers(plateau: Coordinate, rovers: Array<Input>): string {
   let endPos: Array<string> = [];
   while (rovers.length > 0) {
     const roverDetails: Input = rovers.shift();
-
-    // determine start position for rover
-    let startPos: Coordinate;
-    try {
-      startPos = createCoordinate(roverDetails.startPosition);
-    } catch (error) {
-      throw new Error(Errors.INVALID_POS);
-    }
-
-    // create the rover
     const rover = new Rover(
       plateau,
       isDumb,
-      startPos,
+      getStartPos(roverDetails),
       roverDetails.startPosition.split(" ")[2],
       roverDetails.instructions,
       getAllRoverPositions(endPos, rovers)
     );
-
-    // process the rover instructions and update the array of end positions
     rover.processInstructions();
     endPos.push(rover.getPosDir());
   }
@@ -93,4 +81,12 @@ function getAllRoverPositions(
     ...endPos.map((pos) => createCoordinate(pos)),
     ...rovers.map((pos) => createCoordinate(pos.startPosition)),
   ];
+}
+
+function getStartPos(roverDetails: Input): Coordinate {
+  try {
+    return createCoordinate(roverDetails.startPosition);
+  } catch (error) {
+    throw new Error(Errors.INVALID_POS);
+  }
 }
