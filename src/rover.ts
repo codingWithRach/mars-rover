@@ -1,5 +1,5 @@
 import { Coordinate, isValidCoordinate } from "../src/coordinate";
-import { ErrorType } from "../src/error_type";
+import { Errors } from "./error_messages";
 export class Rover {
   #plateau: Coordinate;
   #isDumb: boolean;
@@ -26,14 +26,14 @@ export class Rover {
 
   setPos(x: number, y: number) {
     if (!isValidCoordinate({ x, y }) || !this.isOnPlateau(x, y)) {
-      throw Error(ErrorType.ERR_INVALID_POS);
+      throw Error(Errors.INVALID_POS);
     }
     if (!this.isOccupied(x, y)) this.#position = { x, y };
   }
 
   setDirection(direction: string = "") {
     if (!"NSWE".includes(direction.toUpperCase()) || direction.length !== 1) {
-      throw Error(ErrorType.ERR_INVALID_DIR);
+      throw Error(Errors.INVALID_DIR);
     }
     this.#direction = direction.toUpperCase();
   }
@@ -50,7 +50,7 @@ export class Rover {
     const posIsOccupied = this.#otherRovers.some(
       (roverPos) => roverPos.x === x && roverPos.y === y
     );
-    if (this.#isDumb && posIsOccupied) throw Error(ErrorType.ERR_OCCUPIED_POS);
+    if (this.#isDumb && posIsOccupied) throw Error(Errors.OCCUPIED_POS);
     return posIsOccupied;
   }
 

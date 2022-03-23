@@ -1,4 +1,4 @@
-import { ErrorType } from "../src/error_type";
+import { Errors } from "./error_messages";
 export interface Coordinate {
   x: number;
   y: number;
@@ -13,7 +13,7 @@ export function isValidCoordinate(coordinate: Coordinate): boolean {
 // creates a coordinate from a string in the form '5 5'
 export function createCoordinate(coordString: string): Coordinate {
   if (!coordString.match("^[0-9]+ [0-9]+"))
-    throw new Error(ErrorType.ERR_INVALID_COORD);
+    throw new Error(Errors.INVALID_COORD);
   return {
     x: Number(coordString.split(" ")[0]),
     y: Number(coordString.split(" ")[1]),

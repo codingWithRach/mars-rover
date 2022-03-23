@@ -1,6 +1,6 @@
 import { Coordinate, createCoordinate } from "../src/coordinate";
 import { Rover } from "../src/rover";
-import { ErrorType } from "../src/error_type";
+import { Errors } from "./error_messages";
 
 // this flag determines whether or not the rovers being tested are dumb (a single flag applies to all rovers)
 // - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
@@ -20,7 +20,7 @@ export function marsRover(
   try {
     plateau = createCoordinate(plateauString);
   } catch (error) {
-    throw new Error(ErrorType.ERR_INVALID_PLATEAU);
+    throw new Error(Errors.INVALID_PLATEAU);
   }
 
   // if no rovers have been received, no action is required
@@ -47,7 +47,7 @@ export function marsRover(
     allStartPos.filter((item, index) => allStartPos.indexOf(item) != index)
       .length > 0
   ) {
-    throw Error(ErrorType.ERR_OCCUPIED_POS);
+    throw Error(Errors.OCCUPIED_POS);
   }
 
   // for each of the rovers, follow the instructions and add the end position to the array
@@ -66,7 +66,7 @@ export function marsRover(
     try {
       startPos = createCoordinate(roverDetails[0]);
     } catch (error) {
-      throw new Error(ErrorType.ERR_INVALID_POS);
+      throw new Error(Errors.INVALID_POS);
     }
 
     // create the rover

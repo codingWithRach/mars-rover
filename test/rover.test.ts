@@ -1,6 +1,6 @@
 import { Rover } from "../src/rover";
 import { Coordinate } from "../src/coordinate";
-import { ErrorType } from "../src/error_type";
+import { Errors } from "../src/error_messages";
 
 const plateau: Coordinate = { x: 5, y: 5 };
 
@@ -91,7 +91,7 @@ describe("processInstructions", () => {
       const rover = new Rover(plateau, true, startPos, direction, instructions);
       expect(() => {
         rover.processInstructions();
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
 });
@@ -214,7 +214,7 @@ describe("processInstructions", () => {
       );
       expect(() => {
         rover.processInstructions();
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
 });
@@ -246,7 +246,7 @@ describe("processInstructions", () => {
           direction,
           instructions
         );
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
 });
@@ -266,7 +266,7 @@ describe("processInstructions", () => {
           direction,
           instructions
         );
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
 });
@@ -277,7 +277,7 @@ describe("processInstructions", () => {
     (direction: string) => {
       expect(() => {
         const rover = new Rover(plateau, true, { x: 1, y: 2 }, direction, "");
-      }).toThrow(ErrorType.ERR_INVALID_DIR);
+      }).toThrow(Errors.INVALID_DIR);
     }
   );
 });
@@ -317,7 +317,7 @@ describe("Rover class constructor", () => {
           "LMLMLMLMM",
           otherRovers
         );
-      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      }).toThrow(Errors.OCCUPIED_POS);
     }
   );
 });
@@ -364,7 +364,7 @@ describe("processInstructions", () => {
       );
       expect(() => {
         rover.processInstructions();
-      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      }).toThrow(Errors.OCCUPIED_POS);
     }
   );
 });

@@ -1,5 +1,5 @@
 import { marsRover, configDumb } from "../src/mars_rover";
-import { ErrorType } from "../src/error_type";
+import { Errors } from "../src/error_messages";
 
 describe("marsRover", () => {
   test.each([["5 5"]])(
@@ -16,7 +16,7 @@ describe("marsRover", () => {
     (plateauString: string) => {
       expect(() => {
         marsRover(plateauString);
-      }).toThrow(Error(ErrorType.ERR_INVALID_PLATEAU));
+      }).toThrow(Error(Errors.INVALID_PLATEAU));
     }
   );
 });
@@ -100,7 +100,7 @@ describe("marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
 });
@@ -131,7 +131,7 @@ describe("marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_INVALID_DIR);
+      }).toThrow(Errors.INVALID_DIR);
     }
   );
 });
@@ -248,7 +248,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      }).toThrow(Errors.OCCUPIED_POS);
     }
   );
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "LMLMLMRMMLMMR"]])(
@@ -268,7 +268,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      }).toThrow(Errors.OCCUPIED_POS);
     }
   );
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 2 N", "MMRMMRMRRM"]])(
@@ -288,7 +288,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      }).toThrow(Errors.OCCUPIED_POS);
     }
   );
   test.each([
@@ -311,7 +311,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMMMMMMMMMMRMMRMRRM"]])(
@@ -331,7 +331,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_INVALID_POS);
+      }).toThrow(Errors.INVALID_POS);
     }
   );
   test.each([
@@ -436,7 +436,7 @@ describe("for an intelligent rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(ErrorType.ERR_OCCUPIED_POS);
+      }).toThrow(Errors.OCCUPIED_POS);
     }
   );
   test.each([
