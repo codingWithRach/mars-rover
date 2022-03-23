@@ -14,7 +14,6 @@ export function main(
   plateauString: string,
   ...roverInstructions: Array<string>
 ): string {
-  // create plateau from first argument
   let plateau: Coordinate;
   try {
     plateau = createCoordinate(plateauString);
