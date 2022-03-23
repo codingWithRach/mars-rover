@@ -60,7 +60,7 @@ For each Rover, the output represents its final position (final coordinates and 
 
 # Installation
 
-First, fork and clone this repository
+First clone this repository
 
 Install the dependencies using the command:
 
