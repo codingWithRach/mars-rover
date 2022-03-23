@@ -10,8 +10,7 @@ export function configDumb(dumbFlag: boolean) {
   isDumb = dumbFlag;
 }
 
-// main function
-export function marsRover(
+export function main(
   plateauString: string,
   ...roverInstructions: Array<string>
 ): string {

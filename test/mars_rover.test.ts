@@ -1,11 +1,11 @@
-import { marsRover, configDumb } from "../src/mars_rover";
+import { main, configDumb } from "../src/mars_rover";
 import { Errors } from "../src/error_messages";
 
 describe("marsRover", () => {
   test.each([["5 5"]])(
     "returns empty string if passed valid plateau %p but no instructions",
     (plateauString: string) => {
-      expect(marsRover(plateauString)).toEqual("");
+      expect(main(plateauString)).toEqual("");
     }
   );
 });
@@ -15,7 +15,7 @@ describe("marsRover", () => {
     "throws error if passed invalid plateau %p but no instructions",
     (plateauString: string) => {
       expect(() => {
-        marsRover(plateauString);
+        main(plateauString);
       }).toThrow(Error(Errors.INVALID_PLATEAU));
     }
   );
@@ -25,7 +25,7 @@ describe("marsRover", () => {
   test.each([["5 5", "1 2 N"]])(
     "returns start position if passed start position for one rover but no movement instructions",
     (plateauString: string, roverStart: string) => {
-      expect(marsRover(plateauString, roverStart)).toEqual(roverStart);
+      expect(main(plateauString, roverStart)).toEqual(roverStart);
     }
   );
 });
@@ -41,12 +41,7 @@ describe("marsRover", () => {
       roverEnd: string
     ) => {
       expect(
-        marsRover(
-          plateauString,
-          roverOneStart,
-          roverOneInstruction,
-          roverTwoStart
-        )
+        main(plateauString, roverOneStart, roverOneInstruction, roverTwoStart)
       ).toEqual(roverEnd);
     }
   );
@@ -64,7 +59,7 @@ describe("marsRover", () => {
       roverEnd: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -93,7 +88,7 @@ describe("marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -124,7 +119,7 @@ describe("marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -148,7 +143,7 @@ describe("marsRover", () => {
       instruction: string,
       endPos: string
     ) => {
-      expect(marsRover(plateauString, roverStart, instruction)).toEqual(endPos);
+      expect(main(plateauString, roverStart, instruction)).toEqual(endPos);
     }
   );
 });
@@ -156,7 +151,7 @@ describe("marsRover", () => {
 describe("marsRover", () => {
   const instruction: string = new Array(100000).fill("LMMMMM").join("");
   test("given long instructions, returns expected end position", () => {
-    expect(marsRover("5 5", "0 0 S", instruction)).toEqual("0 0 S");
+    expect(main("5 5", "0 0 S", instruction)).toEqual("0 0 S");
   });
 });
 
@@ -177,7 +172,7 @@ describe("marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -214,7 +209,7 @@ describe("marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -241,7 +236,7 @@ describe("for a dumb rover, marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -261,7 +256,7 @@ describe("for a dumb rover, marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -281,7 +276,7 @@ describe("for a dumb rover, marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -304,7 +299,7 @@ describe("for a dumb rover, marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -324,7 +319,7 @@ describe("for a dumb rover, marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -355,7 +350,7 @@ describe("for a dumb rover, marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -383,7 +378,7 @@ describe("for an intelligent rover, marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -406,7 +401,7 @@ describe("for an intelligent rover, marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -429,7 +424,7 @@ describe("for an intelligent rover, marsRover", () => {
       roverTwoInstruction: string
     ) => {
       expect(() => {
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -452,7 +447,7 @@ describe("for an intelligent rover, marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -482,7 +477,7 @@ describe("for an intelligent rover, marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
@@ -513,7 +508,7 @@ describe("for an intelligent rover, marsRover", () => {
       endPos: string
     ) => {
       expect(
-        marsRover(
+        main(
           plateauString,
           roverOneStart,
           roverOneInstruction,
