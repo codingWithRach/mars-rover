@@ -3,6 +3,7 @@ import { Coordinate } from "./coordinate";
 import { Rover } from "../src/rover";
 import { Errors } from "./error_messages";
 import { Input } from "./input";
+import { RoverCommander } from "./rover_commander";
 
 // this flag determines whether or not the rovers being tested are dumb (a single flag applies to all rovers)
 // - if true, the rovers are dumb i.e. will fall off the edge of a plateau or collide with another rover
@@ -64,36 +65,20 @@ function processRovers(
   rovers: Array<Input>
 ): string {
   let endPos: Array<string> = [];
+  const allRovers: Array<Rover> = [];
   while (rovers.length > 0) {
     const roverDetails: Input = rovers.shift();
     const rover = new Rover(
-      plateau,
       isDumb,
       getStartPos(roverDetails),
       getStartDir(roverDetails),
-      roverDetails.instructions,
-      getAllRoverPositions(endPos, rovers)
+      roverDetails.instructions
     );
-    rover.processInstructions();
-    endPos.push(rover.getPosDir());
+    allRovers.push(rover);
   }
+  const roverCommander = new RoverCommander(plateau, allRovers);
+  endPos = roverCommander.processRovers();
   return endPos.join(", ");
-}
-
-function getAllRoverPositions(
-  endPos: Array<string>,
-  rovers: Array<Input>
-): Array<Coordinate> {
-  return [
-    ...endPos.map((pos) => {
-      const [x, y]: Array<number> = parseCoord(pos);
-      return new Coordinate(x, y);
-    }),
-    ...rovers.map((pos) => {
-      const [x, y]: Array<number> = parseCoord(pos.startPosition);
-      return new Coordinate(x, y);
-    }),
-  ];
 }
 
 function getStartPos(roverDetails: Input): Coordinate {

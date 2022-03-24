@@ -223,7 +223,7 @@ describe("main", () => {
 });
 
 // if a rover is dumb, it will fall off the edge of a plateau or collide with another rover
-describe("for a dumb rover, marsRover", () => {
+describe("for a dumb rover:", () => {
   beforeEach(() => configDumb(true));
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM"]])(
     "if first rover coincides with start position of second rover, first rover crashes",
@@ -362,7 +362,7 @@ describe("for a dumb rover, marsRover", () => {
 });
 
 // if a rover is intelligent, it will stop processing when it encounters the edge of a plateau or another rover
-describe("for an intelligent rover, marsRover", () => {
+describe("for an intelligent rover: ", () => {
   beforeEach(() => configDumb(false));
   test.each([
     ["5 5", "1 2 N", "LMLMLMLMM", "1 3 E", "MMRMMRMRRM", "1 2 N, 3 1 E"],
