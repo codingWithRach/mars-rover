@@ -1,5 +1,3 @@
-import { Errors } from "./error_messages";
-
 export class Coordinate {
   #x: number;
   #y: number;
