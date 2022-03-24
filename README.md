@@ -108,9 +108,9 @@ If no flag is specifically set, the rovers default to being intelligent.
 
 ## Different Shapes of Plateau
 
-A Loop interface would extend the existing Coordinate interface
+A Loop class would extend the existing Coordinate class
 
-Additional optional parameters loopX and loopY would determine whether movement can loop from one side to another.  
+Additional optional class variables loopX and loopY would determine whether movement can loop from one side to another.  
 If not specified, loopX and loopY default to false, and behaviour continues as now.
 
 This would require a change to the setPos function in the Rover class i.e.
