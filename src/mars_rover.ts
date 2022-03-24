@@ -1,4 +1,5 @@
-import { Coordinate, createCoordinate } from "../src/coordinate";
+//import { Coordinate, createCoordinate } from "../src/coordinate";
+import { Coordinate } from "./coordinate";
 import { Rover } from "../src/rover";
 import { Errors } from "./error_messages";
 import { Input } from "./input";
@@ -15,16 +16,18 @@ export function main(
   plateauString: string,
   ...roverInstructions: Array<string>
 ): string {
-  let plateau: Coordinate;
-  try {
-    plateau = createCoordinate(plateauString);
-  } catch (error) {
-    throw new Error(Errors.INVALID_PLATEAU);
-  }
+  const [x, y] = parseCoord(plateauString);
+  let plateau = new Coordinate(Number(x), Number(y));
   if (roverInstructions.length === 0) return "";
   let rovers: Array<Input> = parseInput(roverInstructions);
   checkSharedStartPos(rovers);
-  return processRovers(plateau, rovers);
+  return processRovers(plateau, isDumb, rovers);
+}
+
+function parseCoord(coordString: string): Array<number> {
+  if (!coordString.match("^[0-9]+ [0-9]+"))
+    throw new Error(Errors.INVALID_COORD);
+  return coordString.split(" ").map((str) => Number(str));
 }
 
 function parseInput(roverInstructions: Array<string>): Array<Input> {
@@ -55,7 +58,11 @@ function checkSharedStartPos(rovers: Array<Input>): void {
   }
 }
 
-function processRovers(plateau: Coordinate, rovers: Array<Input>): string {
+function processRovers(
+  plateau: Coordinate,
+  isDumb: boolean,
+  rovers: Array<Input>
+): string {
   let endPos: Array<string> = [];
   while (rovers.length > 0) {
     const roverDetails: Input = rovers.shift();
@@ -78,14 +85,21 @@ function getAllRoverPositions(
   rovers: Array<Input>
 ): Array<Coordinate> {
   return [
-    ...endPos.map((pos) => createCoordinate(pos)),
-    ...rovers.map((pos) => createCoordinate(pos.startPosition)),
+    ...endPos.map((pos) => {
+      const [x, y]: Array<number> = parseCoord(pos);
+      return new Coordinate(x, y);
+    }),
+    ...rovers.map((pos) => {
+      const [x, y]: Array<number> = parseCoord(pos.startPosition);
+      return new Coordinate(x, y);
+    }),
   ];
 }
 
 function getStartPos(roverDetails: Input): Coordinate {
   try {
-    return createCoordinate(roverDetails.startPosition);
+    const [x, y]: Array<number> = parseCoord(roverDetails.startPosition);
+    return new Coordinate(x, y);
   } catch (error) {
     throw new Error(Errors.INVALID_POS);
   }

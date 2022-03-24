@@ -1,21 +1,29 @@
 import { Errors } from "./error_messages";
-export interface Coordinate {
-  x: number;
-  y: number;
-}
 
-export function isValidCoordinate(coordinate: Coordinate): boolean {
-  return ![...Object.values(coordinate)].some(
-    (num) => !Number.isInteger(num) || num < 0
-  );
-}
+export class Coordinate {
+  #x: number;
+  #y: number;
 
-// creates a coordinate from a string in the form '5 5'
-export function createCoordinate(coordString: string): Coordinate {
-  if (!coordString.match("^[0-9]+ [0-9]+"))
-    throw new Error(Errors.INVALID_COORD);
-  return {
-    x: Number(coordString.split(" ")[0]),
-    y: Number(coordString.split(" ")[1]),
-  };
+  get x() {
+    return this.#x;
+  }
+  get y() {
+    return this.#y;
+  }
+
+  set x(x) {
+    this.#x = x;
+  }
+  set y(y) {
+    this.#y = y;
+  }
+
+  constructor(x: number, y: number) {
+    this.#x = x;
+    this.#y = y;
+  }
+
+  isValid(): boolean {
+    return ![this.#x, this.#y].some((num) => !Number.isInteger(num) || num < 0);
+  }
 }

@@ -1,5 +1,4 @@
 import { main, configDumb } from "../src/mars_rover";
-import { Errors } from "../src/error_messages";
 
 describe("main", () => {
   test.each([["5 5"]])(
@@ -16,7 +15,7 @@ describe("main", () => {
     (plateauString: string) => {
       expect(() => {
         main(plateauString);
-      }).toThrow(Error(Errors.INVALID_PLATEAU));
+      }).toThrow();
     }
   );
 });
@@ -95,7 +94,7 @@ describe("main", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.INVALID_POS);
+      }).toThrow();
     }
   );
 });
@@ -126,7 +125,7 @@ describe("main", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.INVALID_DIR);
+      }).toThrow();
     }
   );
 });
@@ -243,7 +242,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.OCCUPIED_POS);
+      }).toThrow();
     }
   );
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "LMLMLMRMMLMMR"]])(
@@ -263,7 +262,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.OCCUPIED_POS);
+      }).toThrow();
     }
   );
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "1 2 N", "MMRMMRMRRM"]])(
@@ -283,7 +282,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.OCCUPIED_POS);
+      }).toThrow();
     }
   );
   test.each([
@@ -306,7 +305,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.INVALID_POS);
+      }).toThrow();
     }
   );
   test.each([["5 5", "1 2 N", "LMLMLMLMM", "3 3 E", "MMMMMMMMMMMRMMRMRRM"]])(
@@ -326,7 +325,7 @@ describe("for a dumb rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.INVALID_POS);
+      }).toThrow();
     }
   );
   test.each([
@@ -431,7 +430,7 @@ describe("for an intelligent rover, marsRover", () => {
           roverTwoStart,
           roverTwoInstruction
         );
-      }).toThrow(Errors.OCCUPIED_POS);
+      }).toThrow();
     }
   );
   test.each([

@@ -1,28 +1,34 @@
 import { Rover } from "../src/rover";
 import { Coordinate } from "../src/coordinate";
-import { Errors } from "../src/error_messages";
 
-const plateau: Coordinate = { x: 5, y: 5 };
+const plateau = new Coordinate(5, 5);
 
 describe("Rover class constructor", () => {
   test.each([
-    [{ x: 1, y: 2 }, "N", "LMLMLMLMM", "1 2 N"],
-    [{ x: 3, y: 3 }, "E", "MMRMMRMRRM", "3 3 E"],
+    [1, 2, "N", "LMLMLMLMM", "1 2 N"],
+    [3, 3, "E", "MMRMMRMRRM", "3 3 E"],
   ])(
     "sets private class variables for starting position %p, directions %p and instructions %p",
     (
-      startPos: Coordinate,
+      x: number,
+      y: number,
       direction: string,
       instructions: string,
       endPos: string
     ) => {
-      const rover = new Rover(plateau, true, startPos, direction, instructions);
+      const rover = new Rover(
+        plateau,
+        true,
+        new Coordinate(x, y),
+        direction,
+        instructions
+      );
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
 
-const startPos: Coordinate = { x: 1, y: 2 };
+const startPos = new Coordinate(1, 2);
 describe("spin method", () => {
   test.each([
     ["L", "1 2 W"],
@@ -55,65 +61,28 @@ describe("move method", () => {
 
 describe("processInstructions", () => {
   test.each([
-    [{ x: 1, y: 2 }, "N", "L", "1 2 W"],
-    [{ x: 1, y: 2 }, "N", "R", "1 2 E"],
-    [{ x: 1, y: 2 }, "N", "M", "1 3 N"],
-    [{ x: 1, y: 2 }, "S", "M", "1 1 S"],
-    [{ x: 1, y: 2 }, "W", "M", "0 2 W"],
-    [{ x: 1, y: 2 }, "E", "M", "2 2 E"],
-    [{ x: 1, y: 2 }, "E", " ", "1 2 E"],
-    [{ x: 1, y: 2 }, "N", "LMLMLMLMM", "1 3 N"],
-    [{ x: 3, y: 3 }, "E", "MMRMMRMRRM", "5 1 E"],
+    [1, 2, "N", "L", "1 2 W"],
+    [1, 2, "N", "R", "1 2 E"],
+    [1, 2, "N", "M", "1 3 N"],
+    [1, 2, "S", "M", "1 1 S"],
+    [1, 2, "W", "M", "0 2 W"],
+    [1, 2, "E", "M", "2 2 E"],
+    [1, 2, "E", " ", "1 2 E"],
+    [1, 2, "N", "LMLMLMLMM", "1 3 N"],
+    [3, 3, "E", "MMRMMRMRRM", "5 1 E"],
   ])(
     "given start position %p, direction %p and instructions %p, changes the position to %p",
     (
-      startPos: Coordinate,
-      direction: string,
-      instructions: string,
-      endPos: string
-    ) => {
-      const rover = new Rover(plateau, true, startPos, direction, instructions);
-      rover.processInstructions();
-      expect(rover.getPosDir()).toEqual(endPos);
-    }
-  );
-});
-
-describe("processInstructions", () => {
-  test.each([
-    [{ x: 1, y: 2 }, "E", "MMMMMRMLMMMM"],
-    [{ x: 1, y: 2 }, "W", "MMMMMRMLMMMM"],
-    [{ x: 1, y: 2 }, "N", "MMMMMRMLMMMM"],
-    [{ x: 1, y: 2 }, "S", "MMMMMRMLMMMM"],
-  ])(
-    "throws error when a dumb rover moves beyond edge of plateau",
-    (startPos: Coordinate, direction: string, instructions: string) => {
-      const rover = new Rover(plateau, true, startPos, direction, instructions);
-      expect(() => {
-        rover.processInstructions();
-      }).toThrow(Errors.INVALID_POS);
-    }
-  );
-});
-
-describe("processInstructions", () => {
-  test.each([
-    [{ x: 1, y: 2 }, "E", "MMMMMRMLMMMM", "5 2 E"],
-    [{ x: 1, y: 2 }, "W", "MMMMMRMLMMMM", "0 2 W"],
-    [{ x: 1, y: 2 }, "N", "MMMMMRMLMMMM", "1 5 N"],
-    [{ x: 1, y: 2 }, "S", "MMMMMRMLMMMM", "1 0 S"],
-  ])(
-    "stops processing when a non-dumb rover attempts to move beyond edge of plateau",
-    (
-      startPos: Coordinate,
+      x: number,
+      y: number,
       direction: string,
       instructions: string,
       endPos: string
     ) => {
       const rover = new Rover(
         plateau,
-        false,
-        startPos,
+        true,
+        new Coordinate(x, y),
         direction,
         instructions
       );
@@ -125,24 +94,82 @@ describe("processInstructions", () => {
 
 describe("processInstructions", () => {
   test.each([
-    [{ x: 1, y: 2 }, "n", "lmlmlmlmm", "1 3 N"],
-    [{ x: 3, y: 3 }, "e", "mmrmmrmrrm", "5 1 E"],
+    [1, 2, "E", "MMMMMRMLMMMM"],
+    [1, 2, "W", "MMMMMRMLMMMM"],
+    [1, 2, "N", "MMMMMRMLMMMM"],
+    [1, 2, "S", "MMMMMRMLMMMM"],
   ])(
-    "processes lowercase instructions",
+    "throws error when a dumb rover moves beyond edge of plateau",
+    (x: number, y: number, direction: string, instructions: string) => {
+      const rover = new Rover(
+        plateau,
+        true,
+        new Coordinate(x, y),
+        direction,
+        instructions
+      );
+      expect(() => {
+        rover.processInstructions();
+      }).toThrow();
+    }
+  );
+});
+
+describe("processInstructions", () => {
+  test.each([
+    [1, 2, "E", "MMMMMRMLMMMM", "5 2 E"],
+    [1, 2, "W", "MMMMMRMLMMMM", "0 2 W"],
+    [1, 2, "N", "MMMMMRMLMMMM", "1 5 N"],
+    [1, 2, "S", "MMMMMRMLMMMM", "1 0 S"],
+  ])(
+    "stops processing when a non-dumb rover attempts to move beyond edge of plateau",
     (
-      startPos: Coordinate,
+      x: number,
+      y: number,
       direction: string,
       instructions: string,
       endPos: string
     ) => {
-      const rover = new Rover(plateau, true, startPos, direction, instructions);
+      const rover = new Rover(
+        plateau,
+        false,
+        new Coordinate(x, y),
+        direction,
+        instructions
+      );
       rover.processInstructions();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
 
-const singleSquare: Coordinate = { x: 0, y: 0 };
+describe("processInstructions", () => {
+  test.each([
+    [1, 2, "n", "lmlmlmlmm", "1 3 N"],
+    [3, 3, "e", "mmrmmrmrrm", "5 1 E"],
+  ])(
+    "processes lowercase instructions",
+    (
+      x: number,
+      y: number,
+      direction: string,
+      instructions: string,
+      endPos: string
+    ) => {
+      const rover = new Rover(
+        plateau,
+        true,
+        new Coordinate(x, y),
+        direction,
+        instructions
+      );
+      rover.processInstructions();
+      expect(rover.getPosDir()).toEqual(endPos);
+    }
+  );
+});
+
+const singleSquare = new Coordinate(0, 0);
 describe("processInstructions", () => {
   test.each([
     ["N", "L", "0 0 W"],
@@ -214,26 +241,27 @@ describe("processInstructions", () => {
       );
       expect(() => {
         rover.processInstructions();
-      }).toThrow(Errors.INVALID_POS);
+      }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
   test.each([
-    [{ x: 10, y: 2 }, "N", "L", true],
-    [{ x: 10, y: 2 }, "N", "R", false],
-    [{ x: 10, y: 2 }, "N", "M", true],
-    [{ x: 10, y: 2 }, "S", "M", false],
-    [{ x: 10, y: 2 }, "W", "M", true],
-    [{ x: 10, y: 2 }, "E", "M", false],
-    [{ x: 10, y: 2 }, "E", " ", true],
-    [{ x: 10, y: 2 }, "N", "LMLMLMLMM", false],
-    [{ x: 30, y: 3 }, "E", "MMRMMRMRRM", true],
+    [10, 2, "N", "L", true],
+    [10, 2, "N", "R", false],
+    [10, 2, "N", "M", true],
+    [10, 2, "S", "M", false],
+    [10, 2, "W", "M", true],
+    [10, 2, "E", "M", false],
+    [10, 2, "E", " ", true],
+    [10, 2, "N", "LMLMLMLMM", false],
+    [30, 3, "E", "MMRMMRMRRM", true],
   ])(
     "throws an error for a rover whose starting point is off the edge of the plateau",
     (
-      startPos: Coordinate,
+      x: number,
+      y: number,
       direction: string,
       instructions: string,
       isDumb: boolean
@@ -242,31 +270,31 @@ describe("processInstructions", () => {
         const rover = new Rover(
           plateau,
           isDumb,
-          startPos,
+          new Coordinate(x, y),
           direction,
           instructions
         );
-      }).toThrow(Errors.INVALID_POS);
+      }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
   test.each([
-    [{ x: -1, y: 2 }, "N", ""],
-    [{ x: 0, y: 2.4 }, "N", ""],
+    [-1, 2, "N", ""],
+    [0, 2.4, "N", ""],
   ])(
     "throws an error for a rover with an invalid starting position",
-    (startPos: Coordinate, direction: string, instructions: string) => {
+    (x: number, y: number, direction: string, instructions: string) => {
       expect(() => {
         const rover = new Rover(
           plateau,
           true,
-          startPos,
+          new Coordinate(x, y),
           direction,
           instructions
         );
-      }).toThrow(Errors.INVALID_POS);
+      }).toThrow();
     }
   );
 });
@@ -276,20 +304,26 @@ describe("processInstructions", () => {
     "throws an error for a rover with an invalid starting direction",
     (direction: string) => {
       expect(() => {
-        const rover = new Rover(plateau, true, { x: 1, y: 2 }, direction, "");
-      }).toThrow(Errors.INVALID_DIR);
+        const rover = new Rover(
+          plateau,
+          true,
+          new Coordinate(1, 2),
+          direction,
+          ""
+        );
+      }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
   test.each([
-    [{ x: 1, y: 2 }, "N", "1 2 N"],
-    [{ x: 3, y: 3 }, "E", "3 3 E"],
+    [1, 2, "N", "1 2 N"],
+    [3, 3, "E", "3 3 E"],
   ])(
     "returns start position when no instructions provided",
-    (startPos: Coordinate, direction: string, endPos: string) => {
-      const rover = new Rover(plateau, true, startPos, direction);
+    (x: number, y: number, direction: string, endPos: string) => {
+      const rover = new Rover(plateau, true, new Coordinate(x, y), direction);
       rover.processInstructions();
       expect(rover.getPosDir()).toEqual(endPos);
     }
@@ -298,13 +332,8 @@ describe("processInstructions", () => {
 
 describe("Rover class constructor", () => {
   test.each([
-    [[{ x: 1, y: 2 }]],
-    [
-      [
-        { x: 2, y: 4 },
-        { x: 1, y: 2 },
-      ],
-    ],
+    [[new Coordinate(1, 2)]],
+    [[new Coordinate(2, 4), new Coordinate(1, 2)]],
   ])(
     "fails to set initial position if another rover is already there",
     (otherRovers: Array<Coordinate>) => {
@@ -312,25 +341,26 @@ describe("Rover class constructor", () => {
         const rover = new Rover(
           plateau,
           true,
-          { x: 1, y: 2 },
+          new Coordinate(1, 2),
           "N",
           "LMLMLMLMM",
           otherRovers
         );
-      }).toThrow(Errors.OCCUPIED_POS);
+      }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
   const otherRovers: Array<Coordinate> = [
-    { x: 4, y: 4 },
-    { x: 3, y: 2 },
+    new Coordinate(4, 4),
+    new Coordinate(3, 2),
   ];
-  test.each([[{ x: 1, y: 2 }, "N", "LMLMLMLMM", "1 3 N"]])(
+  test.each([[1, 2, "N", "LMLMLMLMM", "1 3 N"]])(
     "processes correctly if other rovers are on the plateau but don't interfere with this rover",
     (
-      startPos: Coordinate,
+      x: number,
+      y: number,
       direction: string,
       instructions: string,
       endPos: string
@@ -338,7 +368,7 @@ describe("processInstructions", () => {
       const rover = new Rover(
         plateau,
         true,
-        startPos,
+        new Coordinate(x, y),
         direction,
         instructions,
         otherRovers
@@ -350,31 +380,32 @@ describe("processInstructions", () => {
 });
 
 describe("processInstructions", () => {
-  const otherRovers: Array<Coordinate> = [{ x: 1, y: 3 }];
-  test.each([[{ x: 1, y: 2 }, "N", "LMLMLMLMM"]])(
+  const otherRovers: Array<Coordinate> = [new Coordinate(1, 3)];
+  test.each([[1, 2, "N", "LMLMLMLMM"]])(
     "for a dumb rover, throws error if attempt to move to a position already occupied by another rover",
-    (startPos: Coordinate, direction: string, instructions: string) => {
+    (x: number, y: number, direction: string, instructions: string) => {
       const rover = new Rover(
         plateau,
         true,
-        startPos,
+        new Coordinate(x, y),
         direction,
         instructions,
         otherRovers
       );
       expect(() => {
         rover.processInstructions();
-      }).toThrow(Errors.OCCUPIED_POS);
+      }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
-  const otherRovers: Array<Coordinate> = [{ x: 0, y: 2 }];
-  test.each([[{ x: 1, y: 2 }, "N", "LMLMLMLMM", "1 2 W"]])(
+  const otherRovers: Array<Coordinate> = [new Coordinate(0, 2)];
+  test.each([[1, 2, "N", "LMLMLMLMM", "1 2 W"]])(
     "for a non-dumb rover, stops processing if attempt to move to a position already occupied by another rover",
     (
-      startPos: Coordinate,
+      x: number,
+      y: number,
       direction: string,
       instructions: string,
       endPos: string
@@ -382,7 +413,7 @@ describe("processInstructions", () => {
       const rover = new Rover(
         plateau,
         false,
-        startPos,
+        new Coordinate(x, y),
         direction,
         instructions,
         otherRovers
