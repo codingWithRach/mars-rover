@@ -14,7 +14,7 @@ export class RoverCommander {
     this.#rovers = [];
     rovers.forEach((rover) => {
       this.#roverInMotion = rover;
-      this.checkStartPosIsOnPlateau();
+      this.#checkValidStartPos();
       this.#rovers.push(rover);
     });
   }
@@ -27,43 +27,32 @@ export class RoverCommander {
     return this.#rovers;
   }
 
-  checkStartPosIsOnPlateau() {
-    if (
-      !this.isValidPos(
-        this.#roverInMotion.position.x,
-        this.#roverInMotion.position.y
-      )
-    ) {
-      throw Error(Errors.INVALID_POS);
-    }
-  }
-
   processRovers(): Array<string> {
     const endPos: Array<string> = [];
     const remainingRovers = [];
     this.#rovers.forEach((rover) => remainingRovers.push(rover));
     while (remainingRovers.length > 0) {
       this.#roverInMotion = remainingRovers.shift();
-      this.#obstacles = getObstacles(endPos, remainingRovers);
-      this.processInstructions();
+      this.#obstacles = this.#getObstacles(endPos, remainingRovers);
+      this.#processInstructions();
       endPos.push(this.#roverInMotion.getPosDir());
     }
     return endPos;
   }
 
   // if unable to perform the move or instructions contain an unexpected character, stop processing
-  processInstructions() {
+  #processInstructions() {
     for (const action of this.#roverInMotion.instructions) {
-      if (["L", "R"].includes(action)) this.spin(action);
+      if (["L", "R"].includes(action)) this.#spin(action);
       else if (action === "M") {
-        if (!this.move()) {
+        if (!this.#move()) {
           return;
         }
       } else return;
     }
   }
 
-  spin(spinDirection: string) {
+  #spin(spinDirection: string) {
     const directions: Array<string> = ["N", "W", "S", "E"];
     this.#roverInMotion.direction =
       directions[
@@ -76,7 +65,7 @@ export class RoverCommander {
       ];
   }
 
-  move() {
+  #move() {
     let x: number = this.#roverInMotion.position.x;
     let y: number = this.#roverInMotion.position.y;
     switch (this.#roverInMotion.direction) {
@@ -93,28 +82,39 @@ export class RoverCommander {
         x += 1;
         break;
     }
-    return this.setPos(x, y);
+    return this.#setPos(x, y);
   }
 
-  setPos(x: number, y: number): boolean {
-    const validPos = this.isValidPos(x, y);
+  #setPos(x: number, y: number): boolean {
+    const validPos = this.#isValidPos(x, y);
     if (!validPos && this.#roverInMotion.isDumb)
       throw Error(Errors.INVALID_POS);
     if (validPos) this.#roverInMotion.setPos(x, y);
     return validPos;
   }
 
-  isValidPos(x: number, y: number): boolean {
-    const pos = new Coordinate(x, y);
-    if (!pos.isValid() || !this.isOnPlateau(x, y)) return false;
-    return !this.isOccupied(x, y);
+  #checkValidStartPos() {
+    if (
+      !this.#isValidPos(
+        this.#roverInMotion.position.x,
+        this.#roverInMotion.position.y
+      )
+    ) {
+      throw Error(Errors.INVALID_POS);
+    }
   }
 
-  isOnPlateau(x: number, y: number): boolean {
+  #isValidPos(x: number, y: number): boolean {
+    const pos = new Coordinate(x, y);
+    if (!pos.isValid() || !this.#isOnPlateau(x, y)) return false;
+    return !this.#isOccupied(x, y);
+  }
+
+  #isOnPlateau(x: number, y: number): boolean {
     return x >= 0 && x <= this.#plateau.x && y >= 0 && y <= this.#plateau.y;
   }
 
-  isOccupied(x: number, y: number): boolean {
+  #isOccupied(x: number, y: number): boolean {
     const posIsOccupied = this.#obstacles.some(
       (roverPos) => roverPos.x === x && roverPos.y === y
     );
@@ -122,17 +122,17 @@ export class RoverCommander {
       throw Error(Errors.OCCUPIED_POS);
     return posIsOccupied;
   }
-}
 
-function getObstacles(
-  endPos: Array<string>,
-  rovers: Array<Rover>
-): Array<Coordinate> {
-  return [
-    ...endPos.map((pos) => {
-      const [x, y]: Array<number> = pos.split(" ").map((str) => Number(str));
-      return new Coordinate(x, y);
-    }),
-    ...rovers.map((rover) => rover.position),
-  ];
+  #getObstacles(
+    endPos: Array<string>,
+    rovers: Array<Rover>
+  ): Array<Coordinate> {
+    return [
+      ...endPos.map((pos) => {
+        const [x, y]: Array<number> = pos.split(" ").map((str) => Number(str));
+        return new Coordinate(x, y);
+      }),
+      ...rovers.map((rover) => rover.position),
+    ];
+  }
 }
