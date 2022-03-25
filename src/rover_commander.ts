@@ -44,7 +44,7 @@ export class RoverCommander {
     this.#rovers.forEach((rover) => remainingRovers.push(rover));
     while (remainingRovers.length > 0) {
       this.#roverInMotion = remainingRovers.shift();
-      this.#obstacles = getAllRoverPositions(endPos, remainingRovers);
+      this.#obstacles = getObstacles(endPos, remainingRovers);
       this.processInstructions();
       endPos.push(this.#roverInMotion.getPosDir());
     }
@@ -124,7 +124,7 @@ export class RoverCommander {
   }
 }
 
-function getAllRoverPositions(
+function getObstacles(
   endPos: Array<string>,
   rovers: Array<Rover>
 ): Array<Coordinate> {
