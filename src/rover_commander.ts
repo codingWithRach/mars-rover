@@ -10,9 +10,7 @@ export class RoverCommander {
     this.#plateau = new Coordinate(plateau.x, plateau.y);
     this.#rovers = [];
     rovers.forEach((rover) => {
-      if (!this.isValidPos(rover, rover.position.x, rover.position.y, [])) {
-        throw Error(Errors.INVALID_POS);
-      }
+      this.checkRoverIsOnPlateau(rover);
       this.#rovers.push(rover);
     });
   }
@@ -23,6 +21,12 @@ export class RoverCommander {
 
   get rovers(): Array<Rover> {
     return this.#rovers;
+  }
+
+  checkRoverIsOnPlateau(rover) {
+    if (!this.isValidPos(rover, rover.position.x, rover.position.y, [])) {
+      throw Error(Errors.INVALID_POS);
+    }
   }
 
   processRovers(): Array<string> {
