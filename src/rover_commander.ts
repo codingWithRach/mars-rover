@@ -35,7 +35,7 @@ export class RoverCommander {
       this.#roverInMotion = remainingRovers.shift();
       this.#obstacles = this.#getObstacles(endPos, remainingRovers);
       this.#processInstructions();
-      endPos.push(this.#roverInMotion.getPosDir());
+      endPos.push(this.#roverInMotion.posAndDir);
     }
     return endPos;
   }

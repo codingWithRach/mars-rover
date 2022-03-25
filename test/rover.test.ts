@@ -23,7 +23,7 @@ describe("Rover class constructor", () => {
         direction,
         instructions
       );
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -39,7 +39,7 @@ describe("spin method", () => {
       const rover = new Rover(true, startPos, "N", instructions);
       const roverCommander = new RoverCommander(plateau, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -56,7 +56,7 @@ describe("move method", () => {
       const rover = new Rover(true, startPos, direction, instructions);
       const roverCommander = new RoverCommander(plateau, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -89,7 +89,7 @@ describe("processInstructions", () => {
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -140,7 +140,7 @@ describe("processInstructions", () => {
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -166,7 +166,7 @@ describe("processInstructions", () => {
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -191,7 +191,7 @@ describe("processInstructions", () => {
       const rover = new Rover(false, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -208,7 +208,7 @@ describe("processInstructions", () => {
       const rover = new Rover(true, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -307,7 +307,7 @@ describe("processInstructions", () => {
       const rover = new Rover(true, new Coordinate(x, y), direction);
       const roverCommander = new RoverCommander(plateau, [rover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -361,7 +361,7 @@ describe("processInstructions", () => {
         ...otherRovers,
       ]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });
@@ -404,7 +404,7 @@ describe("processInstructions", () => {
       const otherRover = new Rover(false, new Coordinate(0, 2), "N", "");
       const roverCommander = new RoverCommander(plateau, [rover, otherRover]);
       roverCommander.processRovers();
-      expect(rover.getPosDir()).toEqual(endPos);
+      expect(rover.posAndDir).toEqual(endPos);
     }
   );
 });

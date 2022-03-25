@@ -45,6 +45,10 @@ export class Rover {
     return this.#isDumb;
   }
 
+  get posAndDir(): string {
+    return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
+  }
+
   set direction(direction: string) {
     this.#direction = direction;
   }
@@ -52,9 +56,5 @@ export class Rover {
   setPos(x: number, y: number) {
     this.#position.x = x;
     this.#position.y = y;
-  }
-
-  getPosDir(): string {
-    return `${this.#position.x} ${this.#position.y} ${this.#direction}`;
   }
 }
