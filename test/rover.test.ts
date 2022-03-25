@@ -38,7 +38,7 @@ describe("spin method", () => {
     (instructions: string, endPos: string) => {
       const rover = new Rover(true, startPos, "N", instructions);
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.spin(rover, instructions);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -55,7 +55,7 @@ describe("move method", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(true, startPos, direction, instructions);
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.move(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -88,7 +88,7 @@ describe("processInstructions", () => {
         instructions
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processInstructions(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -111,7 +111,7 @@ describe("processInstructions", () => {
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
       expect(() => {
-        roverCommander.processInstructions(rover, []);
+        roverCommander.processRovers();
       }).toThrow();
     }
   );
@@ -139,7 +139,7 @@ describe("processInstructions", () => {
         instructions
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processInstructions(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -165,7 +165,7 @@ describe("processInstructions", () => {
         instructions
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processInstructions(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -190,7 +190,7 @@ describe("processInstructions", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(false, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
-      roverCommander.processInstructions(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -207,7 +207,7 @@ describe("processInstructions", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(true, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
-      roverCommander.processInstructions(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -227,7 +227,7 @@ describe("processInstructions", () => {
       const rover = new Rover(true, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
       expect(() => {
-        roverCommander.processInstructions(rover, []);
+        roverCommander.processRovers();
       }).toThrow();
     }
   );
@@ -306,7 +306,7 @@ describe("processInstructions", () => {
     (x: number, y: number, direction: string, endPos: string) => {
       const rover = new Rover(true, new Coordinate(x, y), direction);
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processInstructions(rover, []);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
@@ -314,24 +314,32 @@ describe("processInstructions", () => {
 
 describe("Rover class constructor", () => {
   test.each([
-    [[new Coordinate(1, 2)]],
-    [[new Coordinate(2, 4), new Coordinate(1, 2)]],
+    [[new Rover(true, new Coordinate(1, 2), "N", "")]],
+    [
+      [
+        new Rover(true, new Coordinate(2, 4), "N", ""),
+        new Rover(true, new Coordinate(1, 2), "N", ""),
+      ],
+    ],
   ])(
     "fails to set initial position if another rover is already there",
-    (otherRovers: Array<Coordinate>) => {
+    (otherRovers: Array<Rover>) => {
       const rover = new Rover(true, new Coordinate(1, 2), "N", "LMLMLMLMM");
-      const roverCommander = new RoverCommander(plateau, [rover]);
+      const roverCommander = new RoverCommander(plateau, [
+        rover,
+        ...otherRovers,
+      ]);
       expect(() => {
-        roverCommander.processInstructions(rover, otherRovers);
+        roverCommander.processRovers();
       }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
-  const otherRovers: Array<Coordinate> = [
-    new Coordinate(4, 4),
-    new Coordinate(3, 2),
+  const otherRovers: Array<Rover> = [
+    new Rover(true, new Coordinate(4, 4), "N", ""),
+    new Rover(true, new Coordinate(3, 2), "N", ""),
   ];
   test.each([[1, 2, "N", "LMLMLMLMM", "1 3 N"]])(
     "processes correctly if other rovers are on the plateau but don't interfere with this rover",
@@ -348,15 +356,17 @@ describe("processInstructions", () => {
         direction,
         instructions
       );
-      const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processInstructions(rover, otherRovers);
+      const roverCommander = new RoverCommander(plateau, [
+        rover,
+        ...otherRovers,
+      ]);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );
 });
 
 describe("processInstructions", () => {
-  const otherRovers: Array<Coordinate> = [new Coordinate(1, 3)];
   test.each([[1, 2, "N", "LMLMLMLMM"]])(
     "for a dumb rover, throws error if attempt to move to a position already occupied by another rover",
     (x: number, y: number, direction: string, instructions: string) => {
@@ -366,16 +376,16 @@ describe("processInstructions", () => {
         direction,
         instructions
       );
-      const roverCommander = new RoverCommander(plateau, [rover]);
+      const otherRover = new Rover(true, new Coordinate(1, 3), "N", "");
+      const roverCommander = new RoverCommander(plateau, [rover, otherRover]);
       expect(() => {
-        roverCommander.processInstructions(rover, otherRovers);
+        roverCommander.processRovers();
       }).toThrow();
     }
   );
 });
 
 describe("processInstructions", () => {
-  const otherRovers: Array<Coordinate> = [new Coordinate(0, 2)];
   test.each([[1, 2, "N", "LMLMLMLMM", "1 2 W"]])(
     "for a non-dumb rover, stops processing if attempt to move to a position already occupied by another rover",
     (
@@ -391,8 +401,9 @@ describe("processInstructions", () => {
         direction,
         instructions
       );
-      const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processInstructions(rover, otherRovers);
+      const otherRover = new Rover(false, new Coordinate(0, 2), "N", "");
+      const roverCommander = new RoverCommander(plateau, [rover, otherRover]);
+      roverCommander.processRovers();
       expect(rover.getPosDir()).toEqual(endPos);
     }
   );

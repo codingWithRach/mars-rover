@@ -5,12 +5,16 @@ import { Errors } from "./error_messages";
 export class RoverCommander {
   #plateau: Coordinate;
   #rovers: Array<Rover>;
+  #roverInMotion: Rover;
+  #obstacles: Array<Coordinate>;
 
   constructor(plateau: Coordinate, rovers: Array<Rover>) {
     this.#plateau = new Coordinate(plateau.x, plateau.y);
+    this.#obstacles = [];
     this.#rovers = [];
     rovers.forEach((rover) => {
-      this.checkRoverIsOnPlateau(rover);
+      this.#roverInMotion = rover;
+      this.checkRoverIsOnPlateau();
       this.#rovers.push(rover);
     });
   }
@@ -23,8 +27,13 @@ export class RoverCommander {
     return this.#rovers;
   }
 
-  checkRoverIsOnPlateau(rover) {
-    if (!this.isValidPos(rover, rover.position.x, rover.position.y, [])) {
+  checkRoverIsOnPlateau() {
+    if (
+      !this.isValidPos(
+        this.#roverInMotion.position.x,
+        this.#roverInMotion.position.y
+      )
+    ) {
       throw Error(Errors.INVALID_POS);
     }
   }
@@ -34,44 +43,43 @@ export class RoverCommander {
     const remainingRovers = [];
     this.#rovers.forEach((rover) => remainingRovers.push(rover));
     while (remainingRovers.length > 0) {
-      const rover = remainingRovers.shift();
-      const otherRovers: Array<Coordinate> = getAllRoverPositions(
-        endPos,
-        remainingRovers
-      );
-      this.processInstructions(rover, otherRovers);
-      endPos.push(rover.getPosDir());
+      this.#roverInMotion = remainingRovers.shift();
+      this.#obstacles = getAllRoverPositions(endPos, remainingRovers);
+      this.processInstructions();
+      endPos.push(this.#roverInMotion.getPosDir());
     }
     return endPos;
   }
 
   // if unable to perform the move or instructions contain an unexpected character, stop processing
-  processInstructions(rover: Rover, otherRovers: Array<Coordinate>) {
-    for (const action of rover.instructions) {
-      if (["L", "R"].includes(action)) this.spin(rover, action);
+  processInstructions() {
+    for (const action of this.#roverInMotion.instructions) {
+      if (["L", "R"].includes(action)) this.spin(action);
       else if (action === "M") {
-        if (!this.move(rover, otherRovers)) {
+        if (!this.move()) {
           return;
         }
       } else return;
     }
   }
 
-  spin(rover: Rover, spinDirection: string) {
+  spin(spinDirection: string) {
     const directions: Array<string> = ["N", "W", "S", "E"];
-    rover.direction =
+    this.#roverInMotion.direction =
       directions[
-        (directions.findIndex((dirn) => dirn === rover.direction) +
+        (directions.findIndex(
+          (dirn) => dirn === this.#roverInMotion.direction
+        ) +
           (spinDirection === "L" ? 1 : -1) +
           directions.length) %
           directions.length
       ];
   }
 
-  move(rover: Rover, otherRovers: Array<Coordinate>) {
-    let x: number = rover.position.x;
-    let y: number = rover.position.y;
-    switch (rover.direction) {
+  move() {
+    let x: number = this.#roverInMotion.position.x;
+    let y: number = this.#roverInMotion.position.y;
+    switch (this.#roverInMotion.direction) {
       case "N":
         y += 1;
         break;
@@ -85,46 +93,33 @@ export class RoverCommander {
         x += 1;
         break;
     }
-    return this.setPos(rover, x, y, otherRovers);
+    return this.setPos(x, y);
   }
 
-  setPos(
-    rover: Rover,
-    x: number,
-    y: number,
-    otherRovers: Array<Coordinate>
-  ): boolean {
-    const validPos = this.isValidPos(rover, x, y, otherRovers);
-    if (!validPos && rover.isDumb) throw Error(Errors.INVALID_POS);
-    if (validPos) rover.setPos(x, y);
+  setPos(x: number, y: number): boolean {
+    const validPos = this.isValidPos(x, y);
+    if (!validPos && this.#roverInMotion.isDumb)
+      throw Error(Errors.INVALID_POS);
+    if (validPos) this.#roverInMotion.setPos(x, y);
     return validPos;
   }
 
-  isValidPos(
-    rover: Rover,
-    x: number,
-    y: number,
-    otherRovers: Array<Coordinate>
-  ): boolean {
+  isValidPos(x: number, y: number): boolean {
     const pos = new Coordinate(x, y);
     if (!pos.isValid() || !this.isOnPlateau(x, y)) return false;
-    return !this.isOccupied(rover, x, y, otherRovers);
+    return !this.isOccupied(x, y);
   }
 
   isOnPlateau(x: number, y: number): boolean {
     return x >= 0 && x <= this.#plateau.x && y >= 0 && y <= this.#plateau.y;
   }
 
-  isOccupied(
-    rover: Rover,
-    x: number,
-    y: number,
-    otherRovers: Array<Coordinate>
-  ): boolean {
-    const posIsOccupied = otherRovers.some(
+  isOccupied(x: number, y: number): boolean {
+    const posIsOccupied = this.#obstacles.some(
       (roverPos) => roverPos.x === x && roverPos.y === y
     );
-    if (rover.isDumb && posIsOccupied) throw Error(Errors.OCCUPIED_POS);
+    if (this.#roverInMotion.isDumb && posIsOccupied)
+      throw Error(Errors.OCCUPIED_POS);
     return posIsOccupied;
   }
 }
