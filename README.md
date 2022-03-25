@@ -106,6 +106,16 @@ If no flag is specifically set, the rovers default to being intelligent.
 
 # Possible Extensions
 
+The following extensions could be considered in future development:
+
+## Dumb Rover
+
+A plateau could contain a mix of dumb and intelligent rovers by passing a separate flag for each rover
+
+## Obstacles
+
+Currently the only obstacles under consideration are other rovers.  However, the functionality could be extended to allow other obstacles on the plateau, such as gorges, volcanoes, or alien spacecraft.
+
 ## Different Shapes of Plateau
 
 A Loop class would extend the existing Coordinate class
