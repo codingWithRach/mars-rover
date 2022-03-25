@@ -89,7 +89,7 @@ export class RoverCommander {
     const validPos = this.#isValidPos(x, y);
     if (!validPos && this.#roverInMotion.isDumb)
       throw Error(Errors.INVALID_POS);
-    if (validPos) this.#roverInMotion.setPos(x, y);
+    if (validPos) this.#roverInMotion.pos = new Coordinate(x, y);
     return validPos;
   }
 

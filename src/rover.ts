@@ -53,8 +53,8 @@ export class Rover {
     this.#direction = direction;
   }
 
-  setPos(x: number, y: number) {
-    this.#position.x = x;
-    this.#position.y = y;
+  set pos(coord: Coordinate) {
+    this.#position.x = coord.x;
+    this.#position.y = coord.y;
   }
 }
