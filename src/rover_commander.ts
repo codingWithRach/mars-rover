@@ -14,7 +14,7 @@ export class RoverCommander {
     this.#rovers = [];
     rovers.forEach((rover) => {
       this.#roverInMotion = rover;
-      this.checkRoverIsOnPlateau();
+      this.checkStartPosIsOnPlateau();
       this.#rovers.push(rover);
     });
   }
@@ -27,7 +27,7 @@ export class RoverCommander {
     return this.#rovers;
   }
 
-  checkRoverIsOnPlateau() {
+  checkStartPosIsOnPlateau() {
     if (
       !this.isValidPos(
         this.#roverInMotion.position.x,
