@@ -38,7 +38,7 @@ describe("spin method", () => {
     (instructions: string, endPos: string) => {
       const rover = new Rover(true, startPos, "N", instructions);
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -55,7 +55,7 @@ describe("move method", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(true, startPos, direction, instructions);
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -88,7 +88,7 @@ describe("processInstructions", () => {
         instructions
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -111,7 +111,7 @@ describe("processInstructions", () => {
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
       expect(() => {
-        roverCommander.processRovers();
+        roverCommander.commandRovers();
       }).toThrow();
     }
   );
@@ -139,7 +139,7 @@ describe("processInstructions", () => {
         instructions
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -165,7 +165,7 @@ describe("processInstructions", () => {
         instructions
       );
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -190,7 +190,7 @@ describe("processInstructions", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(false, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -207,7 +207,7 @@ describe("processInstructions", () => {
     (direction: string, instructions: string, endPos: string) => {
       const rover = new Rover(true, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -227,7 +227,7 @@ describe("processInstructions", () => {
       const rover = new Rover(true, singleSquare, direction, instructions);
       const roverCommander = new RoverCommander(singleSquare, [rover]);
       expect(() => {
-        roverCommander.processRovers();
+        roverCommander.commandRovers();
       }).toThrow();
     }
   );
@@ -306,7 +306,7 @@ describe("processInstructions", () => {
     (x: number, y: number, direction: string, endPos: string) => {
       const rover = new Rover(true, new Coordinate(x, y), direction);
       const roverCommander = new RoverCommander(plateau, [rover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -330,7 +330,7 @@ describe("Rover class constructor", () => {
         ...otherRovers,
       ]);
       expect(() => {
-        roverCommander.processRovers();
+        roverCommander.commandRovers();
       }).toThrow();
     }
   );
@@ -360,7 +360,7 @@ describe("processInstructions", () => {
         rover,
         ...otherRovers,
       ]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );
@@ -379,7 +379,7 @@ describe("processInstructions", () => {
       const otherRover = new Rover(true, new Coordinate(1, 3), "N", "");
       const roverCommander = new RoverCommander(plateau, [rover, otherRover]);
       expect(() => {
-        roverCommander.processRovers();
+        roverCommander.commandRovers();
       }).toThrow();
     }
   );
@@ -403,7 +403,7 @@ describe("processInstructions", () => {
       );
       const otherRover = new Rover(false, new Coordinate(0, 2), "N", "");
       const roverCommander = new RoverCommander(plateau, [rover, otherRover]);
-      roverCommander.processRovers();
+      roverCommander.commandRovers();
       expect(rover.posAndDir).toEqual(endPos);
     }
   );

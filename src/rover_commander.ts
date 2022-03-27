@@ -27,7 +27,7 @@ export class RoverCommander {
     return this.#rovers;
   }
 
-  processRovers(): Array<string> {
+  commandRovers(): Array<string> {
     const endPos: Array<string> = [];
     const remainingRovers = [];
     this.#rovers.forEach((rover) => remainingRovers.push(rover));

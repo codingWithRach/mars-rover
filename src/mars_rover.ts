@@ -22,7 +22,7 @@ export function main(
   if (roverInstructions.length === 0) return "";
   let rovers: Array<Input> = parseInput(roverInstructions);
   checkSharedStartPos(rovers);
-  return processRovers(plateau, isDumb, rovers);
+  return commandRovers(plateau, isDumb, rovers);
 }
 
 function parseCoord(coordString: string): Array<number> {
@@ -59,7 +59,7 @@ function checkSharedStartPos(rovers: Array<Input>): void {
   }
 }
 
-function processRovers(
+function commandRovers(
   plateau: Coordinate,
   isDumb: boolean,
   rovers: Array<Input>
@@ -77,7 +77,7 @@ function processRovers(
     allRovers.push(rover);
   }
   const roverCommander = new RoverCommander(plateau, allRovers);
-  endPos = roverCommander.processRovers();
+  endPos = roverCommander.commandRovers();
   return endPos.join(", ");
 }
 
