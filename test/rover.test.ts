@@ -61,7 +61,7 @@ describe("move method", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     [1, 2, "N", "L", "1 2 W"],
     [1, 2, "N", "R", "1 2 E"],
@@ -94,7 +94,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     [1, 2, "E", "MMMMMRMLMMMM"],
     [1, 2, "W", "MMMMMRMLMMMM"],
@@ -117,7 +117,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     [1, 2, "E", "MMMMMRMLMMMM", "5 2 E"],
     [1, 2, "W", "MMMMMRMLMMMM", "0 2 W"],
@@ -145,7 +145,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     [1, 2, "n", "lmlmlmlmm", "1 3 N"],
     [3, 3, "e", "mmrmmrmrrm", "5 1 E"],
@@ -172,7 +172,7 @@ describe("processInstructions", () => {
 });
 
 const singleSquare = new Coordinate(0, 0);
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     ["N", "L", "0 0 W"],
     ["N", "R", "0 0 E"],
@@ -196,7 +196,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     ["N", "L", "0 0 W"],
     ["N", "R", "0 0 E"],
@@ -213,7 +213,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     ["N", "M"],
     ["S", "M"],
@@ -233,7 +233,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("new RoverCommander", () => {
   test.each([
     [10, 2, "N", "L", true],
     [10, 2, "N", "R", false],
@@ -266,7 +266,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("new RoverCommander", () => {
   test.each([
     [-1, 2, "N", ""],
     [0, 2.4, "N", ""],
@@ -286,7 +286,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("new Rover", () => {
   test.each([[""], ["X"], ["L"], ["R"], ["M"], ["NS"]])(
     "throws an error for a rover with an invalid starting direction",
     (direction: string) => {
@@ -297,7 +297,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([
     [1, 2, "N", "1 2 N"],
     [3, 3, "E", "3 3 E"],
@@ -336,7 +336,7 @@ describe("Rover class constructor", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   const otherRovers: Array<Rover> = [
     new Rover(true, new Coordinate(4, 4), "N", ""),
     new Rover(true, new Coordinate(3, 2), "N", ""),
@@ -366,7 +366,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([[1, 2, "N", "LMLMLMLMM"]])(
     "for a dumb rover, throws error if attempt to move to a position already occupied by another rover",
     (x: number, y: number, direction: string, instructions: string) => {
@@ -385,7 +385,7 @@ describe("processInstructions", () => {
   );
 });
 
-describe("processInstructions", () => {
+describe("commandRovers", () => {
   test.each([[1, 2, "N", "LMLMLMLMM", "1 2 W"]])(
     "for a non-dumb rover, stops processing if attempt to move to a position already occupied by another rover",
     (
