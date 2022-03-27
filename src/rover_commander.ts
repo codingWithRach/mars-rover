@@ -34,14 +34,14 @@ export class RoverCommander {
     while (remainingRovers.length > 0) {
       this.#roverInMotion = remainingRovers.shift();
       this.#obstacles = this.#getObstacles(endPos, remainingRovers);
-      this.#processInstructions();
+      this.#parseInstructions();
       endPos.push(this.#roverInMotion.posAndDir);
     }
     return endPos;
   }
 
   // if unable to perform the move or instructions contain an unexpected character, stop processing
-  #processInstructions() {
+  #parseInstructions() {
     for (const action of this.#roverInMotion.instructions) {
       if (["L", "R"].includes(action)) this.#spin(action);
       else if (action === "M") {
